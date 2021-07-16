@@ -1,17 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import { MuiThemeProvider } from '@material-ui/core/styles';
+
+import { createMuiTheme } from '@material-ui/core/styles';
+
+import blue from '@material-ui/core/colors/lightBlue';
+
 import App from './App';
-import reportWebVitals from './reportWebVitals';
+
+const theme = () => {
+  return(createMuiTheme({
+    palette: {
+      primary: {
+        ...blue,
+        '500': '#01579B'
+      }
+    }
+  }));
+}
 
 ReactDOM.render(
-  <React.StrictMode>
+  <MuiThemeProvider theme={theme}>
     <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+  </MuiThemeProvider>
+, document.getElementById('root'))
