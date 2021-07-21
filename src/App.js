@@ -1,12 +1,18 @@
-// import logo from './logo.svg';
 import './App.css';
+import * as d3 from 'd3';
+import { Fragment, useEffect, useRef, createRef } from 'react';
+import Lines from './pages/Lines';
 
 function App() {
+
   return (
+    <Fragment>
     <div className="App">
       <h1> CS 416 Data Visualization Project</h1>
-      <p>Test</p>
+      <p>Meme Stock Price and Volume</p>
     </div>
+    <Lines/>
+    </Fragment>
   );
 }
 
