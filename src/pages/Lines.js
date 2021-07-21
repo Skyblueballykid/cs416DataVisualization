@@ -35,6 +35,7 @@ const Lines = () => {
     // Raw data arrays
     const cleanDates = unixDates.map(dateFormat)
     const AMCAdjClose = Object.values(AMCClose)
+    const GMEAdjClose = Object.values(GMEClose)
 
     // Define ranges
     const xMinDate = d3.min(unixDates, d => {
@@ -45,11 +46,11 @@ const Lines = () => {
         return d
     })
 
-    const yMinAdjClose = d3.min(Object.values(AMCClose), d => {
+    const yMinAdjClose = d3.min(Object.values(GMEClose), d => {
       return d
     })
 
-    const yMaxAdjClose = d3.max(Object.values(AMCClose), d => {
+    const yMaxAdjClose = d3.max(Object.values(GMEClose), d => {
       return d
     })
 
@@ -87,16 +88,22 @@ const Lines = () => {
 
     // Map the data arrays to the appropriate series format
     const dateMap = d => ({'date': d})
-
-    const mappedDate = unixDates.map(dateMap);
-
     const valMap = v => ({'value': v})
 
-    const mappedVals = AMCAdjClose.map(valMap)
+    //Date doesn't change so only need to do this once
+    const mappedDate = unixDates.map(dateMap);
 
-    const combined = []
+    const AMCmappedVals = AMCAdjClose.map(valMap);
+    const GMEmappedVals = GMEAdjClose.map(valMap)
+
+    const AMCcombined = []
+    const GMEcombined = []
+
     for (let i = 0; i < mappedDate.length; i++){
-    combined.push(Object.assign({}, mappedDate[i], mappedVals[i]))
+      AMCcombined.push(Object.assign({}, mappedDate[i], AMCmappedVals[i]))
+    }
+    for (let i = 0; i < mappedDate.length; i++){
+      GMEcombined.push(Object.assign({}, mappedDate[i], GMEmappedVals[i]))
     }
 
     const line = d3.line()
@@ -105,9 +112,16 @@ const Lines = () => {
 
     // Add data
     svg.append('path')
-       .data([combined])
+       .data([AMCcombined])
        .style('fill', 'none')
        .attr('stroke', 'steelblue')
+       .attr('stroke-width', 2)
+       .attr('d', line)
+
+      svg.append('path')
+       .data([GMEcombined])
+       .style('fill', 'none')
+       .attr('stroke', 'green')
        .attr('stroke-width', 2)
        .attr('d', line)
 
@@ -117,7 +131,9 @@ const Lines = () => {
        .attr('text-anchor', 'middle')
        .attr('font-size', '16px')
        .attr('fill','steelblue')
-       .text('AMC Price January 3, 2021 - July 12, 2021')
+       .text('GME and AMC Price January 3, 2021 - July 12, 2021')
+
+    
 
   }, [])
 
