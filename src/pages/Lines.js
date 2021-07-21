@@ -15,6 +15,8 @@ const Lines = () => {
 
     const dateFormat  = d3.timeFormat("%d/%m/%Y");
 
+    const monthFormat = d3.timeFormat("%m/%d/%y");
+
 
   useEffect(() => {
 
@@ -67,7 +69,6 @@ const Lines = () => {
     const xAxis = d3.scaleTime()
                     .domain([xMinDate, xMaxDate])
                     .range([0, width])
-                    // .tickFormat(timeParser);
 
     // y axis 
     const yAxis = d3.scaleLinear()
@@ -78,11 +79,11 @@ const Lines = () => {
     svg.append('g')
        .attr('id', 'xAxis')
        .attr('transform', 'translate(0,' + height + ')')
-       .call(d3.axisBottom(xAxis))
-
+       .call(d3.axisBottom(xAxis).ticks(25).tickFormat(monthFormat))
+       
     svg.append('g')
        .attr('id', 'yAxis')
-       .call(d3.axisLeft(yAxis))
+       .call(d3.axisLeft(yAxis).tickFormat(d3.format("$,.0f")))
 
     // Map the data arrays to the appropriate series format
     const dateMap = d => ({'date': d})
