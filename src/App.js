@@ -5,6 +5,7 @@ import Lines from './pages/Lines';
 import { Typography } from '@material-ui/core';
 import '@fontsource/roboto';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import WSB from './assets/images/wsb.jpeg';
 
 const theme = createTheme({
   props: {
@@ -28,8 +29,13 @@ const theme = createTheme({
 function App() {
 
   return (
-    <Fragment>
-      <ThemeProvider theme={theme}>
+    <div class="wrap">
+    <img
+    class="bg"
+    src={WSB}
+    alt="WSB"/>
+    <div class="content">
+    <ThemeProvider theme={theme}>
     <div className="App">
       <Typography variant='h4'>
       <h1> CS 416 Data Visualization Project</h1>
@@ -37,13 +43,11 @@ function App() {
       <Typography variant='h5'>
       <h4>An Analysis of Meme Stock Price and Volume during the meme stock craze</h4>
       </Typography>
-
-
-
     </div>
     <Lines/>
     </ThemeProvider>
-    </Fragment>
+    </div>
+    </div>
   );
 }
 
