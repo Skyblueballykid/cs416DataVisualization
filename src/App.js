@@ -1,8 +1,12 @@
 import './App.css';
 import * as d3 from 'd3';
-import { Fragment, useEffect, useRef, createRef } from 'react';
-import Lines from './pages/Lines';
-import { Typography } from '@material-ui/core';
+import { Fragment, useState, useEffect, useRef, createRef } from 'react';
+import { Route, Switch, Redirect, Link, BrowserRouter as Router } from "react-router-dom"
+import Main from './pages/Main';
+import About from './pages/About';
+import Smallcaps from './pages/SmallCaps';
+import Analysis from './pages/Analysis';
+import { Typography, Paper, Tabs, Tab } from '@material-ui/core';
 import '@fontsource/roboto';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import WSB from './assets/images/wsb.jpeg';
@@ -28,7 +32,12 @@ const theme = createTheme({
 
 function App() {
 
+
   return (
+    <Fragment>
+      <Router>
+        <Switch>
+          
     <div class="wrap">
     <img
     class="bg"
@@ -37,17 +46,32 @@ function App() {
     <div class="content">
     <ThemeProvider theme={theme}>
     <div className="App">
+      <Tabs>
+            <Tab label="Home" to="/main" component={Link}></Tab>
+            <Tab label="Smallcaps" to="/smallcaps" component={Link}></Tab>
+            <Tab label="Analysis" to="/analysis" component={Link}></Tab>
+            <Tab label="About" to="about" component={Link}></Tab>
+      </Tabs>
       <Typography variant='h4'>
       <h1> CS 416 Data Visualization Project</h1>
       </Typography>
       <Typography variant='h5'>
-      <h4>An Analysis of Meme Stock Price and Volume during the meme stock craze</h4>
+      <h5>An Analysis of Meme Stock Price and Volume during the meme stock craze</h5>
       </Typography>
+
+
+    <Route path="/main" component={Main}/>
+    <Route path="/smallcaps" component={Smallcaps}/>
+    <Route path="/analysis" component={Analysis}/>
+    <Route path="/about" component={About}/>
+    <Redirect from="/" to="/main"/>
     </div>
-    <Lines/>
     </ThemeProvider>
     </div>
     </div>
+    </Switch>
+    </Router>
+    </Fragment>
   );
 }
 
