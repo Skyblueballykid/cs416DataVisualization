@@ -263,17 +263,13 @@ const Main = () => {
     const GMEVolumeVals = Object.values(GMEVolume);
     const GMEVolumeValMap = GMEVolumeVals.map(valMap);
 
-    const yMinVol = d3.min(GMEVolumeVals, d=> {
+    const yMinVolGME = d3.min(GMEVolumeVals, d=> {
       return d
     })
 
-    const yMaxVol = d3.max(GMEVolumeVals, d=> {
+    const yMaxVolGME = d3.max(GMEVolumeVals, d=> {
       return d
     })
-
-    const yVolAxis = d3.scaleLinear()
-                       .domain([0, yMaxVol])
-                       .range([height, 500])
 
     const GMEVolumeCombined = [] 
     
@@ -284,6 +280,11 @@ const Main = () => {
     // console.log(GMEVolumeCombined)
 
     if (gmeButton) {
+
+      const yVolAxisGME = d3.scaleLinear()
+      .domain([0, yMaxVolGME])
+      .range([height, 700])
+
     svg.selectAll()
        .data(GMEVolumeCombined)
        .enter()
@@ -293,16 +294,63 @@ const Main = () => {
          return xAxis(d['date'])
        })
        .attr('y', d => {
-         return yVolAxis(d['value'])
+         return yVolAxisGME(d['value'])
        })
       .attr('fill', 'black')
       .attr('width', 3)      
       .attr('height', d => {
-        return window.innerHeight - margin.bottom * 2.5 - yVolAxis(d['value']);
+        return window.innerHeight - margin.bottom * 2.5 - yVolAxisGME(d['value']);
       });
     } else {
       d3.selectAll("#GMEVolume").remove()
     }
+
+    // AMC Volume
+    // console.log("AMCVolume", AMCVolume)
+    const AMCVolumeVals = Object.values(AMCVolume);
+    const AMCVolumeValMap = AMCVolumeVals.map(valMap);
+
+    const yMinVolAMC = d3.min(AMCVolumeVals, d=> {
+      return d
+    })
+
+    const yMaxVolAMC = d3.max(AMCVolumeVals, d=> {
+      return d
+    })
+
+    const AMCVolumeCombined = [] 
+    
+    for (let i = 0; i < mappedDate.length; i++){
+      AMCVolumeCombined.push(Object.assign({}, mappedDate[i], AMCVolumeValMap[i]))
+    }
+
+    console.log(AMCVolumeCombined)
+
+
+    if (amcButton && !gmeButton) {
+      const yVolAxisAMC = d3.scaleLinear()
+        .domain([0, yMaxVolAMC])
+        .range([height, 700])
+
+      svg.selectAll()
+         .data(AMCVolumeCombined)
+         .enter()
+         .append('rect')
+         .attr('id', 'AMCVolume')
+         .attr('x', d => {
+           return xAxis(d['date'])
+         })
+         .attr('y', d => {
+           return yVolAxisAMC(d['value'])
+         })
+        .attr('fill', 'grey')
+        .attr('width', 3)      
+        .attr('height', d => {
+          return window.innerHeight - margin.bottom * 2.5 - yVolAxisAMC(d['value']);
+        });
+      } else {
+        d3.selectAll("#AMCVolume").remove()
+      }
 
       
 
@@ -314,6 +362,7 @@ useRenderChartToCanvas()
   const handleGMEClick = () => {
     setGMEButton(!gmeButton)
     setAnnotation1(false)
+    d3.selectAll("#AMCVolume").remove()
     // d3.select('#d3div').selectAll("svg").remove()
   }
 
