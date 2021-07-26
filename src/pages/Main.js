@@ -283,7 +283,7 @@ const Main = () => {
 
       const yVolAxisGME = d3.scaleLinear()
       .domain([0, yMaxVolGME])
-      .range([height, 700])
+      .range([height, 400])
 
     svg.selectAll()
        .data(GMEVolumeCombined)
@@ -330,7 +330,7 @@ const Main = () => {
     if (amcButton && !gmeButton) {
       const yVolAxisAMC = d3.scaleLinear()
         .domain([0, yMaxVolAMC])
-        .range([height, 700])
+        .range([height, 400])
 
       svg.selectAll()
          .data(AMCVolumeCombined)
@@ -358,6 +358,9 @@ const Main = () => {
 }
 
 useRenderChartToCanvas()
+
+  const t = d3.transition()
+              .duration(2000);
 
   const handleGMEClick = () => {
     setGMEButton(!gmeButton)
