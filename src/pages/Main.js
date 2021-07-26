@@ -1,13 +1,13 @@
 import * as d3 from 'd3';
-import * as d3v4 from 'd3';
+// import * as d3v4 from 'd3';
 import { useEffect, useRef, createRef, useState, Fragment } from 'react';
 import SimpleDateTime  from 'react-simple-timestamp-to-date';
-import { AMCClose, GMEClose, BBClose, KOSSClose, SNDLClose } from '../data/close_prices.js';
-import { AMCVolume, GMEVolume, BBVolume, KOSSVolume, SNDLVolume } from '../data/volume.js';
-import data from './data.csv';
+import { AMCClose, GMEClose } from '../data/close_prices.js';
+import { AMCVolume, GMEVolume } from '../data/volume.js';
 import { Grid, Button } from '@material-ui/core';
+import { Typography } from '@material-ui/core';
 
-const Lines = () => {
+const Main = () => {
     // console.log(AMCClose)
     // console.log(AMCVolume)
     
@@ -27,7 +27,7 @@ const Lines = () => {
     // console.log(amcButton)
 
     const useRenderChartToCanvas = () => {
-  useEffect(() => {
+    useEffect(() => {
 
     // SVG Bounds
     const margin = {top: 100, right: 100, bottom: 200, left: 150}
@@ -80,6 +80,8 @@ const Lines = () => {
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
+      // Try this to make it more responsive
+      // .attr("viewBox", `10 0 300 600`)
       .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')');
 
     // Scales
@@ -138,6 +140,7 @@ const Lines = () => {
        .attr('stroke', 'steelblue')
        .attr('stroke-width', 2)
        .attr('d', line)
+
     } else {
       d3.selectAll("#AMC").remove()
       d3.selectAll("#annotate1").remove()
@@ -258,9 +261,10 @@ const Lines = () => {
       d3.selectAll("#annotate6").remove()
     }
 
-    // Volume
-
-    const GMEVolumeVals = Object.values(GMEVolume)
+    // GME Volume
+    // console.log("GMEVolume", GMEVolume)
+    const GMEVolumeVals = Object.values(GMEVolume);
+    const GMEVolumeValMap = GMEVolumeVals.map(valMap);
 
     const yMinVol = d3.min(GMEVolumeVals, d=> {
       return d
@@ -271,42 +275,39 @@ const Lines = () => {
     })
 
     const yVolAxis = d3.scaleLinear()
-                       .domain([yMinVol, yMaxVol])
-                       .range([height, 0])
+                       .domain([0, yMaxVol])
+                       .range([height, 600])
 
     const GMEVolumeCombined = [] 
     
     for (let i = 0; i < mappedDate.length; i++){
-      GMEVolumeCombined.push(Object.assign({}, mappedDate[i], GMEVolumeVals[i]))
+      GMEVolumeCombined.push(Object.assign({}, mappedDate[i], GMEVolumeValMap[i]))
     }
 
-    // svg.selectAll()
-    //    .data([GMEVolumeCombined])
-    //    .enter()
-    //    .append('rect')
-    //    .attr('x', d=> {
-    //      return xAxis(d['date'])
-    //    })
-    //    .attr('y', d=> {
-    //      return yVolAxis(d['value'])
-    //    })
-    //    .attr('fill', (d, i) => {
-    //     if (i === 0) {
-    //       return '#03a678';
-    //     } else {  
-    //       return GMEVolumeCombined[i - 1].value > d.value ? '#c0392b' : '#03a678'; 
-    //     }
-    //   })
-    //   .attr('width', 100)      
-    //   .attr('height', d => {
-    //     return height;
-    //   });
+    // console.log(GMEVolumeCombined)
 
-    // Mouse over
-    // svg.on('mousemove', function(event) {
-    //   let coords = d3.pointer(event);
-    //   console.log( coords ) // log the mouse position
-    // })
+    if (gmeButton) {
+    svg.selectAll()
+       .data(GMEVolumeCombined)
+       .enter()
+       .append('rect')
+       .attr('id', 'GMEVolume')
+       .attr('x', d => {
+         return xAxis(d['date'])
+       })
+       .attr('y', d => {
+         return yVolAxis(d['value'])
+       })
+      .attr('fill', 'black')
+      .attr('width', 3)      
+      .attr('height', d => {
+        return height - yVolAxis(d['value']);
+      });
+    } else {
+      d3.selectAll("#GMEVolume").remove()
+    }
+
+      
 
   }, [gmeButton, amcButton, annotation1, annotation2])
 }
@@ -390,8 +391,10 @@ useRenderChartToCanvas()
       <div id='d3div'>
       <svg ref={d3Ref}></svg>
       </div>
+      <Typography variant='h6'>
+        This chart illustrates the battle for tendies against the hedgies.</Typography>
       </Fragment>
   );
 }
 
-export default Lines;
+export default Main;
