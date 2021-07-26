@@ -26,12 +26,11 @@ const Main = () => {
     useEffect(() => {
 
     // SVG Bounds
-    const margin = {top: 100, right: 100, bottom: 200, left: 150}
+    const margin = {top: 50, right: 150, bottom: 200, left: 150}
     const width = window.innerWidth - margin.left * 2 - margin.right * 2
     const height = window.innerHeight - margin.bottom * 2 - margin.top * 2
 
     
-
     // Dates range
     const unixDates = Object.keys(AMCClose)
     const first = unixDates[0]
