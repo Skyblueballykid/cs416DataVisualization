@@ -8,8 +8,6 @@ import { Grid, Button } from '@material-ui/core';
 import { Typography } from '@material-ui/core';
 
 const Main = () => {
-    // console.log(AMCClose)
-    // console.log(AMCVolume)
     
     const d3Ref = useRef();
 
@@ -23,8 +21,6 @@ const Main = () => {
     const [ amcButton, setAMCButton ] = useState(true);
     const [ annotation1, setAnnotation1 ] = useState(false);
     const [ annotation2, setAnnotation2 ] = useState(false);
-    // console.log(gmeButton)
-    // console.log(amcButton)
 
     const useRenderChartToCanvas = () => {
     useEffect(() => {
@@ -99,12 +95,12 @@ const Main = () => {
        .attr('id', 'xAxis')
        .attr('transform', 'translate(0,' + height + ')')
        .call(d3.axisBottom(xAxis).ticks(25).tickFormat(monthFormat))
-       .style("font-size","14px");
+       .style("font-size","12px");
        
     svg.append('g')
        .attr('id', 'yAxis')
        .call(d3.axisLeft(yAxis).tickFormat(d3.format("$,.0f")))
-       .style("font-size","14px");
+       .style("font-size","12px");
 
     // Map the data arrays to the appropriate series format
     const dateMap = d => ({'date': d})
@@ -391,8 +387,6 @@ useRenderChartToCanvas()
       <div id='d3div'>
       <svg ref={d3Ref}></svg>
       </div>
-      <Typography variant='h6'>
-        This chart illustrates the battle for tendies against the hedgies.</Typography>
       </Fragment>
   );
 }

@@ -46,19 +46,20 @@ function App() {
     <div class="content">
     <ThemeProvider theme={theme}>
     <div className="App">
+
       <Tabs>
             <Tab label="Home" to="/main" component={Link}></Tab>
             <Tab label="Smallcaps" to="/smallcaps" component={Link}></Tab>
             <Tab label="Analysis" to="/analysis" component={Link}></Tab>
             <Tab label="About" to="about" component={Link}></Tab>
       </Tabs>
+      
       <Typography variant='h4'>
       <h1> CS 416 Data Visualization Project</h1>
       </Typography>
       <Typography variant='h5'>
       <h5>An Analysis of Meme Stock Price and Volume during the meme stock craze</h5>
       </Typography>
-
 
     <Route path="/main" component={Main}/>
     <Route path="/smallcaps" component={Smallcaps}/>
