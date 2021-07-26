@@ -1,0 +1,15 @@
+.svg-container {
+    display: inline-block;
+    position: absolute;
+    width: 80vw;
+    height: 80vh;
+    padding-bottom: 10%;
+    vertical-align: top;
+    overflow: hidden;
+}
+.svg-content {
+    display: inline-block;
+    position: relative;
+    top: 0;
+    left: 0;
+}
