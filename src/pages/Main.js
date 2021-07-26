@@ -72,11 +72,13 @@ const Main = () => {
 
     // Create SVG 
     const svg = d3.select(d3Ref.current)
+    // .attr('class', 'svg-container')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
+    // .attr("preserveAspectRatio", "xMinYMin meet")
+    // .attr("viewBox", "0 0 600 1000")
+    // .classed("svg-content", true)
     .append('g')
-      // Try this to make it more responsive
-      // .attr("viewBox", `10 0 300 600`)
       .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')');
 
     // Scales
