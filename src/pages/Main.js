@@ -95,7 +95,7 @@ const Main = () => {
     svg.append('g')
        .attr('id', 'xAxis')
        .attr('transform', 'translate(0,' + height + ')')
-       .call(d3.axisBottom(xAxis).ticks(25).tickFormat(monthFormat))
+       .call(d3.axisBottom(xAxis).ticks(20).tickFormat(monthFormat))
        .style("font-size","12px");
        
     svg.append('g')
@@ -273,7 +273,7 @@ const Main = () => {
 
     const yVolAxis = d3.scaleLinear()
                        .domain([0, yMaxVol])
-                       .range([height, 600])
+                       .range([height, 400])
 
     const GMEVolumeCombined = [] 
     
