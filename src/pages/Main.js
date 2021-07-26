@@ -273,7 +273,7 @@ const Main = () => {
 
     const yVolAxis = d3.scaleLinear()
                        .domain([0, yMaxVol])
-                       .range([height, 400])
+                       .range([height, 500])
 
     const GMEVolumeCombined = [] 
     
@@ -298,7 +298,7 @@ const Main = () => {
       .attr('fill', 'black')
       .attr('width', 3)      
       .attr('height', d => {
-        return height - yVolAxis(d['value']);
+        return window.innerHeight - margin.bottom * 2.5 - yVolAxis(d['value']);
       });
     } else {
       d3.selectAll("#GMEVolume").remove()
