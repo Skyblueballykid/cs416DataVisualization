@@ -15,7 +15,7 @@ const Main = () => {
 
     const dateFormat  = d3.timeFormat("%d/%m/%Y");
 
-    const monthFormat = d3.timeFormat("%m/%d/%y");
+    const monthFormat = d3.timeFormat("%m/%d");
 
     const [ gmeButton, setGMEButton ] = useState(true);
     const [ amcButton, setAMCButton ] = useState(true);
