@@ -1,4 +1,5 @@
 import * as d3 from 'd3';
+import * as d3v4 from 'd3';
 import { useEffect, useRef, createRef, useState, Fragment } from 'react';
 import SimpleDateTime  from 'react-simple-timestamp-to-date';
 import { AMCClose, GMEClose, BBClose, KOSSClose, SNDLClose } from '../data/close_prices.js';
@@ -20,13 +21,16 @@ const Lines = () => {
 
     const [ gmeButton, setGMEButton ] = useState(true);
     const [ amcButton, setAMCButton ] = useState(true);
+    const [ annotation1, setAnnotation1 ] = useState(false);
+    const [ annotation2, setAnnotation2 ] = useState(false);
     // console.log(gmeButton)
     // console.log(amcButton)
 
+    const useRenderChartToCanvas = () => {
   useEffect(() => {
 
     // SVG Bounds
-    const margin = {top: 100, right: 100, bottom: 200, left: 100}
+    const margin = {top: 100, right: 100, bottom: 200, left: 150}
     const width = window.innerWidth - margin.left * 2 - margin.right * 2
     const height = window.innerHeight - margin.bottom * 2 - margin.top * 2
 
@@ -61,6 +65,11 @@ const Lines = () => {
       return d
     })
 
+
+    const amcyMaxAdjClose = d3.max(Object.values(AMCClose), d => {
+      return d
+    })
+
     // console.log(dateFormat(xMinDate))
     // console.log(dateFormat(xMaxDate))
     // console.log(yMinAdjClose)
@@ -88,10 +97,12 @@ const Lines = () => {
        .attr('id', 'xAxis')
        .attr('transform', 'translate(0,' + height + ')')
        .call(d3.axisBottom(xAxis).ticks(25).tickFormat(monthFormat))
+       .style("font-size","16px");
        
     svg.append('g')
        .attr('id', 'yAxis')
        .call(d3.axisLeft(yAxis).tickFormat(d3.format("$,.0f")))
+       .style("font-size","16px");
 
     // Map the data arrays to the appropriate series format
     const dateMap = d => ({'date': d})
@@ -101,7 +112,7 @@ const Lines = () => {
     const mappedDate = unixDates.map(dateMap);
 
     const AMCmappedVals = AMCAdjClose.map(valMap);
-    const GMEmappedVals = GMEAdjClose.map(valMap)
+    const GMEmappedVals = GMEAdjClose.map(valMap);
 
     const AMCcombined = []
     const GMEcombined = []
@@ -129,6 +140,9 @@ const Lines = () => {
        .attr('d', line)
     } else {
       d3.selectAll("#AMC").remove()
+      d3.selectAll("#annotate1").remove()
+      d3.selectAll("#annotate2").remove()
+      d3.selectAll("#annotate3").remove()
     }
 
     if (gmeButton) {
@@ -142,16 +156,107 @@ const Lines = () => {
        .attr('d', line)
     } else {
       d3.selectAll("#GME").remove()
+      d3.selectAll("#annotate4").remove()
+      d3.selectAll("#annotate5").remove()
+      d3.selectAll("#annotate6").remove()
     }
 
     // Add title
       svg.append('text')
-       .attr('x',(width/2))
-       .attr('y', (margin.top/5))
+       .attr('x',(width/1.9))
+       .attr('y', (margin.top/4.8))
        .attr('text-anchor', 'middle')
-       .attr('font-size', '16px')
+       .attr('font-size', '24px')
        .attr('fill','steelblue')
        .text('GME and AMC Price January 3, 2021 - July 12, 2021')
+
+    if (gmeButton && annotation1) {
+    // Add GME annotations
+      svg.append('text')
+          .attr("id", "annotate1")
+          .attr('x',(width/5.3))
+          .attr('y', (margin.top/4.8))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','red')
+          .text('<--- Peak tendies 🍗🐔🍗')
+      
+        svg.append('text')
+        .attr("id", "annotate1")
+        .attr('x',(width/5.7))
+        .attr('y', (margin.top/2))
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '24px')
+        .attr('fill','black')
+        .text(d3.format("($.2f") (yMaxAdjClose))
+
+      svg.append('text')
+          .attr("id", "annotate2")
+          .attr('x',(width/3.5))
+          .attr('y', (margin.top * 1.5))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','red')
+          .text('Recovery --->')
+
+          svg.append('text')
+          .attr("id", "annotate3")
+          .attr('x',(width/1.3))
+          .attr('y', (margin.top))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','red')
+          .text('Near peak --->')
+
+    } else {
+      d3.selectAll("#annotate1").remove()
+      d3.selectAll("#annotate2").remove()
+      d3.selectAll("#annotate3").remove()
+    }
+
+    if (amcButton && annotation2) {
+          // Add AMC annotations
+        svg.append('text')
+          .attr("id", "annotate4")
+          .attr('x',(width/6))
+          .attr('y', (margin.top * 6.5))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','red')
+          .text('<--- Near peak')
+
+      svg.append('text')
+          .attr("id", "annotate5")
+          .attr('x',(width/3.5))
+          .attr('y', (margin.top * 6.5))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','red')
+          .text('No subsequent recovery')
+
+          svg.append('text')
+          .attr("id", "annotate6")
+          .attr('x',(width/1.4))
+          .attr('y', (margin.top * 6))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','red')
+          .text('Peak tendies 🍗🐔🍗 --->')
+
+          svg.append('text')
+          .attr("id", "annotate6")
+          .attr('x',(width/1.4))
+          .attr('y', (margin.top * 6.3))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','black')
+          .text(d3.format("($.2f") (amcyMaxAdjClose))
+
+    } else {
+      d3.selectAll("#annotate4").remove()
+      d3.selectAll("#annotate5").remove()
+      d3.selectAll("#annotate6").remove()
+    }
 
     // Volume
 
@@ -203,7 +308,22 @@ const Lines = () => {
     //   console.log( coords ) // log the mouse position
     // })
 
-  }, [gmeButton, amcButton])
+  }, [gmeButton, amcButton, annotation1, annotation2])
+}
+
+useRenderChartToCanvas()
+
+  const handleGMEClick = () => {
+    setGMEButton(!gmeButton)
+    setAnnotation1(false)
+    // d3.select('#d3div').selectAll("svg").remove()
+  }
+
+  const handleAMCClick = () => {
+    setAMCButton(!amcButton)
+    setAnnotation2(false)
+    // d3.select('#d3div').selectAll("svg").remove()
+  }
 
   return (
       <Fragment>
@@ -213,28 +333,62 @@ const Lines = () => {
       justifyContent="center"
       alignItems="center">
       <Grid>
+      <Button variant="contained"
+      color="secondary"
+      >&lt;&lt;</Button>
+      &nbsp;&nbsp;
       <Button 
       variant="contained" 
       color="primary"
-      onClick={() => setGMEButton(!gmeButton)}
+      onClick={handleGMEClick}
       >
         GME
       </Button>
       </Grid>
       &nbsp;&nbsp;
       <Grid>
+        
       <Button 
       variant="contained" 
       color="primary"
-      onClick={() => setAMCButton(!amcButton)}
+      onClick={handleAMCClick}
       >
         AMC
       </Button>
+      &nbsp;&nbsp;
+      <Button variant="contained"
+      color="secondary"
+      >&gt;&gt;</Button>
+      &nbsp;&nbsp;
+      </Grid>
+      </Grid>
+      <br/>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      <Grid>
+      <Button variant="contained"
+      onClick={() => setAnnotation1(!annotation1)}
+      >GME Play ▶️</Button>
+      </Grid>
+      </Grid>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      <Grid>
+      <Button variant="contained"
+      onClick={() => setAnnotation2(!annotation2)}
+      >AMC Play ▶️</Button>
       </Grid>
       </Grid>
       <div id='d3div'>
       <svg ref={d3Ref}></svg>
-      {/* <SimpleDateTime>{1609718400}</SimpleDateTime> */}
       </div>
       </Fragment>
   );
