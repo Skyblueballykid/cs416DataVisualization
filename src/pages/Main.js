@@ -99,12 +99,12 @@ const Main = () => {
        .attr('id', 'xAxis')
        .attr('transform', 'translate(0,' + height + ')')
        .call(d3.axisBottom(xAxis).ticks(25).tickFormat(monthFormat))
-       .style("font-size","16px");
+       .style("font-size","14px");
        
     svg.append('g')
        .attr('id', 'yAxis')
        .call(d3.axisLeft(yAxis).tickFormat(d3.format("$,.0f")))
-       .style("font-size","16px");
+       .style("font-size","14px");
 
     // Map the data arrays to the appropriate series format
     const dateMap = d => ({'date': d})
@@ -169,7 +169,7 @@ const Main = () => {
        .attr('x',(width/1.9))
        .attr('y', (margin.top/4.8))
        .attr('text-anchor', 'middle')
-       .attr('font-size', '24px')
+       .attr('font-size', '22px')
        .attr('fill','steelblue')
        .text('GME and AMC Price January 3, 2021 - July 12, 2021')
 
@@ -180,7 +180,7 @@ const Main = () => {
           .attr('x',(width/5.3))
           .attr('y', (margin.top/4.8))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','red')
           .text('<--- Peak tendies 🍗🐔🍗')
       
@@ -189,7 +189,7 @@ const Main = () => {
         .attr('x',(width/5.7))
         .attr('y', (margin.top/2))
         .attr('text-anchor', 'middle')
-        .attr('font-size', '24px')
+        .attr('font-size', '20px')
         .attr('fill','black')
         .text(d3.format("($.2f") (yMaxAdjClose))
 
@@ -198,7 +198,7 @@ const Main = () => {
           .attr('x',(width/3.5))
           .attr('y', (margin.top * 1.5))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','red')
           .text('Recovery --->')
 
@@ -207,7 +207,7 @@ const Main = () => {
           .attr('x',(width/1.3))
           .attr('y', (margin.top))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','red')
           .text('Near peak --->')
 
@@ -224,7 +224,7 @@ const Main = () => {
           .attr('x',(width/6))
           .attr('y', (margin.top * 6.5))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','red')
           .text('<--- Near peak')
 
@@ -233,7 +233,7 @@ const Main = () => {
           .attr('x',(width/3.5))
           .attr('y', (margin.top * 6.5))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','red')
           .text('No subsequent recovery')
 
@@ -242,7 +242,7 @@ const Main = () => {
           .attr('x',(width/1.4))
           .attr('y', (margin.top * 6))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','red')
           .text('Peak tendies 🍗🐔🍗 --->')
 
@@ -251,7 +251,7 @@ const Main = () => {
           .attr('x',(width/1.4))
           .attr('y', (margin.top * 6.3))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
+          .attr('font-size', '20px')
           .attr('fill','black')
           .text(d3.format("($.2f") (amcyMaxAdjClose))
 
