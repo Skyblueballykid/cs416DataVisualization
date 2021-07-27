@@ -48,7 +48,7 @@ function App() {
 
       <Tabs>
             <Tab label="Main Stocks" to="/main" component={Link}></Tab>
-            <Tab label="Smaller Stocks" to="/smallcaps" component={Link}></Tab>
+            <Tab label="Other Stocks" to="/smallcaps" component={Link}></Tab>
             <Tab label="Subreddit User Analysis" to="/analysis" component={Link}></Tab>
             <Tab label="About" to="about" component={Link}></Tab>
       </Tabs>
