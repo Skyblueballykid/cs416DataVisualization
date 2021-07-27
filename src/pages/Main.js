@@ -2,9 +2,9 @@ import * as d3 from 'd3';
 import { useEffect, useRef, useState, Fragment } from 'react';
 import { AMCClose, GMEClose } from '../data/close_prices.js';
 import { AMCVolume, GMEVolume } from '../data/volume.js';
-import { Grid, Button } from '@material-ui/core';
+import { Grid, Button, Card, CardContent, Typography } from '@material-ui/core';
 import { AnnotationLabel, AnnotationBracket } from 'react-annotation';
-
+import StopIcon from '@material-ui/icons/Stop';
 
 const Main = () => {
     
@@ -402,6 +402,10 @@ useRenderChartToCanvas();
 
   return (
       <Fragment>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <Grid 
       container
       direction="row"   
@@ -437,6 +441,39 @@ useRenderChartToCanvas();
       onClick={handlePlay}
       >&gt;&gt;</Button>
       &nbsp;&nbsp;
+      </Grid>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      <p><i>Toggle the stock charts and click the red buttons to add and remove annotations.</i></p>
+      </Grid>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      <Card style={{backgroundColor: 'transparent'}}>
+        <CardContent>
+          <Typography variant="h6" component="h6">
+            <b>Legend</b>
+          </Typography>
+          <Typography variant="body1" component="body1">
+          <StopIcon fontSize="small" style={{ color: "green" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GameStop Corporation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          </Typography>
+          <br/>
+          <Typography variant="body1" component="body1">
+          <StopIcon fontSize="small" style={{ color: "steelblue" }}></StopIcon> AMC Entertainment Holdings, Inc.
+          </Typography>
+        </CardContent>
+      </Card>
       </Grid>
       </Grid>
       <div id='d3div'>
