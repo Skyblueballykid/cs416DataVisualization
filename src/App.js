@@ -1,12 +1,11 @@
 import './App.css';
-import * as d3 from 'd3';
-import { Fragment, useState, useEffect, useRef, createRef } from 'react';
+import { Fragment} from 'react';
 import { Route, Switch, Redirect, Link, BrowserRouter as Router } from "react-router-dom"
 import Main from './pages/Main';
 import About from './pages/About';
 import Smallcaps from './pages/SmallCaps';
 import Analysis from './pages/Analysis';
-import { Typography, Paper, Tabs, Tab } from '@material-ui/core';
+import { Typography, Tabs, Tab } from '@material-ui/core';
 import '@fontsource/roboto';
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import WSB from './assets/images/wsb.jpeg';
@@ -48,12 +47,12 @@ function App() {
     <div className="App">
 
       <Tabs>
-            <Tab label="Home" to="/main" component={Link}></Tab>
-            <Tab label="Smallcaps" to="/smallcaps" component={Link}></Tab>
-            <Tab label="Analysis" to="/analysis" component={Link}></Tab>
+            <Tab label="Main Players" to="/main" component={Link}></Tab>
+            <Tab label="Smaller Stocks" to="/smallcaps" component={Link}></Tab>
+            <Tab label="Subreddit User Analysis" to="/analysis" component={Link}></Tab>
             <Tab label="About" to="about" component={Link}></Tab>
       </Tabs>
-      
+
       <Typography variant='h4'>
       <h1> CS 416 Data Visualization Project</h1>
       </Typography>
