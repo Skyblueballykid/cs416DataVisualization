@@ -3,7 +3,7 @@ import { useEffect, useRef, useState, Fragment } from 'react';
 import { AMCClose, GMEClose } from '../data/close_prices.js';
 import { AMCVolume, GMEVolume } from '../data/volume.js';
 import { Grid, Button } from '@material-ui/core';
-import { AnnotationLabel, AnnotationCalloutCircle, AnnotationBracket, SubjectCircle, ConnectorElbow, ConnectorEndDot, Note } from 'react-annotation';
+import { AnnotationLabel, AnnotationBracket } from 'react-annotation';
 
 
 const Main = () => {
@@ -15,10 +15,27 @@ const Main = () => {
     const [ gmeButton, setGMEButton ] = useState(true);
     const [ amcButton, setAMCButton ] = useState(true);
     const [ annotation, setannotation ] = useState(0);
-    const [ hover, setHover ] = useState(false);
+
+    //Just use this to trigger a rerender
+    // const [ reset, setReset ] = useState(false);
+
+    // // Rerender on resize
+    // let [width, setWidth] = useState(window.innerWidth);
+    // const getWidth = () => window.innerWidth;
+
+    // const resizeListener = () => {
+    //   setWidth(getWidth)
+    //   d3.selectAll("g > *").remove()
+    //   setReset(!reset);
+    // };
+
+    // // set resize listener
+    // window.addEventListener('resize', resizeListener);
 
     const useRenderChartToCanvas = () => {
+
     useEffect(() => {
+
 
     // SVG Bounds
     const margin = {top: 50, right: 150, bottom: 200, left: 150}
@@ -271,9 +288,9 @@ const Main = () => {
     const GMEVolumeVals = Object.values(GMEVolume);
     const GMEVolumeValMap = GMEVolumeVals.map(valMap);
 
-    const yMinVolGME = d3.min(GMEVolumeVals, d=> {
-      return d
-    })
+    // const yMinVolGME = d3.min(GMEVolumeVals, d=> {
+    //   return d
+    // })
 
     const yMaxVolGME = d3.max(GMEVolumeVals, d=> {
       return d
@@ -315,9 +332,9 @@ const Main = () => {
     const AMCVolumeVals = Object.values(AMCVolume);
     const AMCVolumeValMap = AMCVolumeVals.map(valMap);
 
-    const yMinVolAMC = d3.min(AMCVolumeVals, d=> {
-      return d
-    })
+    // const yMinVolAMC = d3.min(AMCVolumeVals, d=> {
+    //   return d
+    // })
 
     const yMaxVolAMC = d3.max(AMCVolumeVals, d=> {
       return d
@@ -355,12 +372,12 @@ const Main = () => {
         d3.selectAll("#AMCVolume").remove()
       }
 
-      
 
-  }, [gmeButton, amcButton, annotation])
+
+  }, [gmeButton, amcButton, annotation]) //resizeListener
 }
 
-useRenderChartToCanvas()
+useRenderChartToCanvas();
 
   const handleGMEClick = () => {
     setGMEButton(!gmeButton)
@@ -425,7 +442,7 @@ useRenderChartToCanvas()
       <div id='d3div'>
       <svg ref={d3Ref}>
         { annotation > 0 ?  
-      <AnnotationCalloutCircle
+      <AnnotationLabel
         x={window.innerWidth/5.5}
         y={50}
         dy={60}
@@ -436,11 +453,10 @@ useRenderChartToCanvas()
           "lineType":"horizontal",
           "align":"middle"}}
         connector={{"type":"line","end":null}}
-        subject={{"radius":60,"radiusPadding":5}}
       />
        : "" }
        { annotation > 1 ?
-        <AnnotationCalloutCircle
+        <AnnotationLabel
         x={window.innerWidth/3.5}
         y={175}
         dy={80}
@@ -451,11 +467,10 @@ useRenderChartToCanvas()
           "lineType":"horizontal",
           "align":"middle"}}
         connector={{"type":"line","end":null}}
-        subject={{"radius":60,"radiusPadding":5}}
       />
       : ""}
       { annotation > 2 ?
-        <AnnotationCalloutCircle
+        <AnnotationLabel
         x={window.innerWidth/1.7}
         y={140}
         dy={80}
@@ -466,11 +481,10 @@ useRenderChartToCanvas()
           "lineType":"horizontal",
           "align":"middle"}}
         connector={{"type":"line","end":null}}
-        subject={{"radius":60,"radiusPadding":5}}
       />
       : ""}
       { annotation > 3 ?
-        <AnnotationCalloutCircle
+        <AnnotationLabel
         x={window.innerWidth/5.5}
         y={540}
         dy={10}
@@ -481,7 +495,6 @@ useRenderChartToCanvas()
           "lineType":"horizontal",
           "align":"middle"}}
         connector={{"type":"line","end":null}}
-        subject={{"radius":60,"radiusPadding":5}}
       />
       : ""}
       { annotation > 4 ?
@@ -491,13 +504,13 @@ useRenderChartToCanvas()
         dy={10}
         dx={162}
         color={"red"}
-        note={{"title":"No subsequent AMC recovery", "padding": 2}}
+        note={{"title":"No subsequent AMC recovery", "padding": 0}}
         subject={{"height":70,"type":"curly"}}
       />
       : ""}
       { annotation > 5 ?
-        <AnnotationCalloutCircle
-        x={window.innerWidth/1.7}
+        <AnnotationLabel
+        x={window.innerWidth/2}
         y={450}
         dy={80}
         dx={240}
@@ -507,7 +520,6 @@ useRenderChartToCanvas()
           "lineType":"horizontal",
           "align":"middle"}}
         connector={{"type":"line","end":null}}
-        subject={{"radius":60,"radiusPadding":5}}
       />
       : ""}
       </svg>
