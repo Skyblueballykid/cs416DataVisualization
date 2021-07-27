@@ -9,7 +9,7 @@ import { Typography } from '@material-ui/core';
 
 const Analysis = () => {
     return(
-        <h1>Analysis</h1>
+        <h1>Subreddit User Analysis</h1>
     )
 }
 
