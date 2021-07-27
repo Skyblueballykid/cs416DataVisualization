@@ -181,22 +181,30 @@ const Main = () => {
     svg.append('text')
        .attr("id", "annotate0")
        .attr('x',(width/2))
-       .attr('y', (height + 100))
+       .attr('y', (height + 60))
        .attr('text-anchor', 'middle')
        .attr('font-size', '24px')
        .attr('fill','black')
-       .text('Our story begins when saavy retail stock traders identified stocks with heavy short interest from institutional investors on wallstreet. These stocks collectively became known as the "meme stocks".')
-       
+       .text('Our story begins when saavy retail stock traders identified stocks with heavy short interest from institutional investors on wallstreet.')
+    
+    svg.append('text')
+       .attr("id", "annotate0")
+       .attr('x',(width/2))
+       .attr('y', (height + 90))
+       .attr('text-anchor', 'middle')
+       .attr('font-size', '24px')
+       .attr('fill','black')
+       .text('These stocks collectively became known as the "meme stocks".')
+    
 
     if (gmeButton && annotation > 0) {
-
 
       d3.selectAll("#annotate0").remove()
     // Add GME annotations
       svg.append('text')
           .attr("id", "annotate1")
           .attr('x',(width/2))
-          .attr('y', (height + 30))
+          .attr('y', (height + 60))
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
@@ -205,7 +213,7 @@ const Main = () => {
           svg.append('text')
           .attr("id", "annotate1")
           .attr('x',(width/2))
-          .attr('y', (height + 50))
+          .attr('y', (height + 90))
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
@@ -230,7 +238,7 @@ const Main = () => {
       svg.append('text')
           .attr("id", "annotate2")
           .attr('x',(width/2))
-          .attr('y', (height + 50))
+          .attr('y', (height + 60))
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
@@ -245,7 +253,7 @@ const Main = () => {
           svg.append('text')
           .attr("id", "annotate3")
           .attr('x',(width/2))
-          .attr('y', (height + 50))
+          .attr('y', (height + 90))
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
