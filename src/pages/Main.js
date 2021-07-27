@@ -472,7 +472,7 @@ useRenderChartToCanvas()
       { annotation > 3 ?
         <AnnotationCalloutCircle
         x={window.innerWidth/5.5}
-        y={580}
+        y={540}
         dy={10}
         dx={162}
         color={"red"}
@@ -487,7 +487,7 @@ useRenderChartToCanvas()
       { annotation > 4 ?
         <AnnotationBracket
         x={window.innerWidth/3.5}
-        y={480}
+        y={440}
         dy={10}
         dx={162}
         color={"red"}
@@ -498,7 +498,7 @@ useRenderChartToCanvas()
       { annotation > 5 ?
         <AnnotationCalloutCircle
         x={window.innerWidth/1.7}
-        y={500}
+        y={450}
         dy={80}
         dx={240}
         color={"red"}
