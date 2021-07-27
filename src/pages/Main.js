@@ -178,17 +178,39 @@ const Main = () => {
        .attr('fill','steelblue')
        .text('GME and AMC Price January 3, 2021 - July 12, 2021')
 
-    if (gmeButton && annotation > 0) {
-    // Add GME annotations
-      // svg.append('text')
-      //     .attr("id", "annotate1")
-      //     .attr('x',(width/5.3))
-      //     .attr('y', (margin.top/4.8))
-      //     .attr('text-anchor', 'middle')
-      //     .attr('font-size', '20px')
-      //     .attr('fill','blue')
-      //     .text('<--- Peak tendies 🍗🐔🍗')
+    svg.append('text')
+       .attr("id", "annotate0")
+       .attr('x',(width/2))
+       .attr('y', (height + 100))
+       .attr('text-anchor', 'middle')
+       .attr('font-size', '24px')
+       .attr('fill','black')
+       .text('Our story begins when saavy retail stock traders identified stocks with heavy short interest from institutional investors on wallstreet. These stocks collectively became known as the "meme stocks".')
+       
 
+    if (gmeButton && annotation > 0) {
+
+
+      d3.selectAll("#annotate0").remove()
+    // Add GME annotations
+      svg.append('text')
+          .attr("id", "annotate1")
+          .attr('x',(width/2))
+          .attr('y', (height + 100))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','black')
+          .text("The most heavily shorted of these, GameStop Corporation, at one time had short interest of as much as 141%.")
+      
+          svg.append('text')
+          .attr("id", "annotate1")
+          .attr('x',(width/2))
+          .attr('y', (height + 130))
+          .attr('text-anchor', 'middle')
+          .attr('font-size', '24px')
+          .attr('fill','black')
+        .text("Retail traders banded together on the popular subreddit r/Wallstreetbets and their collective buying power drove the price to a peak of $347.51.")
+          
         svg.append('text')
           .attr("id", "annotate1")
           .attr('x',(width/5))
@@ -203,29 +225,31 @@ const Main = () => {
     }
 
     if (gmeButton && annotation > 1) {
-    
+
+      d3.selectAll("#annotate1").remove()
       svg.append('text')
           .attr("id", "annotate2")
-          .attr('x',(width/3.5))
-          .attr('y', (margin.top * 1.5))
+          .attr('x',(width/2))
+          .attr('y', (height + 130))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('')
+          .attr('font-size', '24px')
+          .attr('fill','black')
+          .text('After the massive price action, the stock price quickly collapsed, but then saw a subsequent recovery 1 month later.')
     } else {
       d3.selectAll("#annotate2").remove()
     }
 
     if (gmeButton && annotation > 2) {
+        d3.selectAll("#annotate2").remove()
 
           svg.append('text')
           .attr("id", "annotate3")
-          .attr('x',(width/1.3))
-          .attr('y', (margin.top))
+          .attr('x',(width/2))
+          .attr('y', (height + 130))
           .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('')
+          .attr('font-size', '24px')
+          .attr('fill','black')
+          .text('The stock traded with high volatility until nearly recovering losses in June.')
 
     } else {
       
@@ -233,6 +257,7 @@ const Main = () => {
     }
 
     if (amcButton && annotation > 3) {
+        d3.selectAll("#annotate3").remove()
           // Add AMC annotations
         svg.append('text')
           .attr("id", "annotate4")
@@ -478,7 +503,7 @@ useRenderChartToCanvas();
       </Grid>
       <div id='d3div'>
       <svg ref={d3Ref}>
-        { annotation > 0 ?  
+        { annotation === 1 ?  
       <AnnotationLabel
         x={window.innerWidth/5.5}
         y={50}
@@ -492,7 +517,7 @@ useRenderChartToCanvas();
         connector={{"type":"line","end":null}}
       />
        : "" }
-       { annotation > 1 ?
+       { annotation === 2 ?
         <AnnotationLabel
         x={window.innerWidth/3.5}
         y={175}
@@ -506,7 +531,7 @@ useRenderChartToCanvas();
         connector={{"type":"line","end":null}}
       />
       : ""}
-      { annotation > 2 ?
+      { annotation === 3 ?
         <AnnotationLabel
         x={window.innerWidth/1.7}
         y={140}
@@ -520,7 +545,7 @@ useRenderChartToCanvas();
         connector={{"type":"line","end":null}}
       />
       : ""}
-      { annotation > 3 ?
+      { annotation === 4 ?
         <AnnotationLabel
         x={window.innerWidth/5.5}
         y={540}
@@ -534,7 +559,7 @@ useRenderChartToCanvas();
         connector={{"type":"line","end":null}}
       />
       : ""}
-      { annotation > 4 ?
+      { annotation === 5 ?
         <AnnotationBracket
         x={window.innerWidth/3.5}
         y={440}
@@ -545,7 +570,7 @@ useRenderChartToCanvas();
         subject={{"height":70,"type":"curly"}}
       />
       : ""}
-      { annotation > 5 ?
+      { annotation === 6 ?
         <AnnotationLabel
         x={window.innerWidth/2}
         y={450}
