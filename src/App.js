@@ -64,7 +64,7 @@ function App() {
     <Route path="/smallcaps" component={Smallcaps}/>
     <Route path="/analysis" component={Analysis}/>
     <Route path="/about" component={About}/>
-    <Redirect from="/" to="/main"/>
+    <Redirect from="/" to="/analysis"/>
     </div>
     </ThemeProvider>
     </div>
