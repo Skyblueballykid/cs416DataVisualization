@@ -81,7 +81,7 @@ const Main = () => {
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     // .attr("preserveAspectRatio", "xMinYMin meet")
-    // .attr("viewBox", "0 0 600 1000")
+    .attr("viewBox", "0 0" + width + " " + height)
     // .classed("svg-content", true)
     .append('g')
       .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')');
@@ -185,7 +185,7 @@ const Main = () => {
        .attr('text-anchor', 'middle')
        .attr('font-size', '24px')
        .attr('fill','black')
-       .text('Our story begins when saavy retail stock traders identified stocks with heavy short interest from institutional investors on wallstreet.')
+       .text('')
     
     svg.append('text')
        .attr("id", "annotate0")
@@ -194,7 +194,7 @@ const Main = () => {
        .attr('text-anchor', 'middle')
        .attr('font-size', '24px')
        .attr('fill','black')
-       .text('These stocks collectively became known as the "meme stocks".')
+       .text('')
     
 
     if (gmeButton && annotation > 0) {
@@ -208,7 +208,7 @@ const Main = () => {
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
-          .text("The most heavily shorted of these, GameStop Corporation, at one time had short interest of as much as 141%.")
+          .text("")
       
           svg.append('text')
           .attr("id", "annotate1")
@@ -217,7 +217,7 @@ const Main = () => {
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
-        .text("Retail traders banded together on the popular subreddit r/Wallstreetbets and their collective buying power drove the price to a peak of $347.51.")
+        .text("")
           
         svg.append('text')
           .attr("id", "annotate1")
@@ -242,7 +242,7 @@ const Main = () => {
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
-          .text('After the massive price action, the stock price quickly collapsed, but then saw a subsequent recovery 1 month later.')
+          .text('')
     } else {
       d3.selectAll("#annotate2").remove()
     }
@@ -257,7 +257,7 @@ const Main = () => {
           .attr('text-anchor', 'middle')
           .attr('font-size', '24px')
           .attr('fill','black')
-          .text('The stock traded with high volatility until nearly recovering losses in June.')
+          .text('')
 
     } else {
       
@@ -433,12 +433,12 @@ useRenderChartToCanvas();
     }
   }
 
+  const handleReset = () => {
+    setannotation(0)
+  }
+
   return (
       <Fragment>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
       <Grid 
       container
       direction="row"   
@@ -476,6 +476,21 @@ useRenderChartToCanvas();
       &nbsp;&nbsp;
       </Grid>
       <br/>
+      <br/>
+      <br/>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      <Button variant="contained"
+      onClick={handleReset}
+      >
+      Restart
+      </Button>
+      </Grid>
+      <br/>
       <Grid 
       container
       direction="row"   
@@ -483,8 +498,6 @@ useRenderChartToCanvas();
       alignItems="center">
       <p><i>Toggle the stock charts and click the red buttons to add and remove annotations.</i></p>
       </Grid>
-      <br/>
-      <br/>
       <br/>
       <br/>
       <br/>
@@ -509,6 +522,26 @@ useRenderChartToCanvas();
       </Card>
       </Grid>
       </Grid>
+      <br/>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      {annotation === 0 ?
+      <Typography variant="h5" component="h5" color="secondary">Our story begins when saavy retail stock traders identified stocks with heavy short interest from institutional investors on wallstreet. These stocks collectively became known as the "meme stocks".</Typography>
+      : ""}
+      {annotation === 1 ?
+      <Typography variant="h5" component="h5" color="secondary">The most heavily shorted of these, GameStop Corporation, at one time had short interest of as much as 141% <a href="https://www.reuters.com/article/us-retail-trading-gamestop-short-idUSKBN2BG28H">(source)</a>. Retail traders, led by /u/RoaringKitty and others, banded together on the popular subreddit r/Wallstreetbets and their collective buying power drove the price to a peak of $347.51.</Typography>
+      : ""}
+      {annotation === 2 ?
+      <Typography variant="h5" component="h5" color="secondary">After the massive price action, the stock price quickly collapsed, but then saw a subsequent recovery 1 month later.</Typography>
+      : ""}
+      {annotation === 3 ?
+      <Typography variant="h5" component="h5" color="secondary">The stock traded with high volatility until nearly recovering losses in June.</Typography>
+      : ""}
+      </Grid>
       <div id='d3div'>
       <svg ref={d3Ref}>
         { annotation === 1 ?  
@@ -526,6 +559,7 @@ useRenderChartToCanvas();
       />
        : "" }
        { annotation === 2 ?
+       <Fragment>
         <AnnotationLabel
         x={window.innerWidth/3.5}
         y={175}
@@ -538,6 +572,7 @@ useRenderChartToCanvas();
           "align":"middle"}}
         connector={{"type":"line","end":null}}
       />
+      </Fragment>
       : ""}
       { annotation === 3 ?
         <AnnotationLabel
@@ -594,7 +629,7 @@ useRenderChartToCanvas();
       : ""}
       </svg>
       </div>
-      </Fragment>
+       </Fragment>
   );
 }
 
