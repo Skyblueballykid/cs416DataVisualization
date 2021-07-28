@@ -13,7 +13,7 @@ const Main = () => {
     const monthFormat = d3.timeFormat("%m/%d");
 
     const [ gmeButton, setGMEButton ] = useState(true);
-    const [ amcButton, setAMCButton ] = useState(true);
+    const [ amcButton, setAMCButton ] = useState(false);
     const [ annotation, setannotation ] = useState(0);
 
     //Just use this to trigger a rerender
@@ -81,7 +81,7 @@ const Main = () => {
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     // .attr("preserveAspectRatio", "xMinYMin meet")
-    .attr("viewBox", "0 0" + width + " " + height)
+    .attr("viewBox", "0 0" + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
     // .classed("svg-content", true)
     .append('g')
       .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')');
@@ -136,6 +136,7 @@ const Main = () => {
 
 
     if (amcButton) {
+    setGMEButton(false)
     // Add AMC data
     svg.append('path')
        .data([AMCcombined])
@@ -153,6 +154,7 @@ const Main = () => {
     }
 
     if (gmeButton) {
+    setAMCButton(false)
     // Add GME data
       svg.append('path')
        .data([GMEcombined])
@@ -161,7 +163,6 @@ const Main = () => {
        .attr('stroke', 'green')
        .attr('stroke-width', 2)
        .attr('d', line)
-
     } else {
       d3.selectAll("#GME").remove()
       d3.selectAll("#annotate4").remove()
@@ -414,11 +415,13 @@ useRenderChartToCanvas();
 
   const handleGMEClick = () => {
     setGMEButton(!gmeButton)
+    setAMCButton(false)
     d3.selectAll("#AMCVolume").remove()
   }
 
   const handleAMCClick = () => {
     setAMCButton(!amcButton)
+    setGMEButton(false)
   }
 
   const handlePlay = () => {
