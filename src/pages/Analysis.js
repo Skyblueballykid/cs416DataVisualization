@@ -120,7 +120,7 @@ const Analysis = () => {
       .selectAll("circle")
       .filter(function(d) {
           console.log(d)
-          return (d.Posts/d.Users)*10000 > 20
+          return (d.Posts/d.Users)*10000 > 5
       })
       .style("fill", "black")
       .duration(4000)

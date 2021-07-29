@@ -40,9 +40,8 @@ const Main = () => {
 
     // SVG Bounds
     const margin = {top: 50, right: 150, bottom: 200, left: 150}
-    const width = window.innerWidth - margin.left * 2 - margin.right * 2
-    const height = window.innerHeight - margin.bottom * 2 - margin.top * 2
-
+    const width = window.innerWidth/2
+    const height = window.innerHeight/2
     
     // Dates range
     const unixDates = Object.keys(AMCClose)
@@ -323,9 +322,9 @@ const Main = () => {
     const GMEVolumeVals = Object.values(GMEVolume);
     const GMEVolumeValMap = GMEVolumeVals.map(valMap);
 
-    // const yMinVolGME = d3.min(GMEVolumeVals, d=> {
-    //   return d
-    // })
+    const yMinVolGME = d3.min(GMEVolumeVals, d=> {
+      return d
+    })
 
     const yMaxVolGME = d3.max(GMEVolumeVals, d=> {
       return d
@@ -340,8 +339,8 @@ const Main = () => {
     if (gmeButton) {
 
       const yVolAxisGME = d3.scaleLinear()
-      .domain([0, yMaxVolGME])
-      .range([height, 400])
+      .domain([yMinVolGME, yMaxVolGME])
+      .range([height, 600])
 
     svg.append("g")
        .selectAll()
@@ -358,7 +357,7 @@ const Main = () => {
       .attr('fill', 'black')
       .attr('width', 3)      
       .attr('height', d => {
-        return window.innerHeight - margin.bottom * 2.5 - yVolAxisGME(d['value']);
+        return height - yVolAxisGME(d['value']);
       });
     } else {
       d3.selectAll("#GMEVolume").remove()
@@ -368,9 +367,9 @@ const Main = () => {
     const AMCVolumeVals = Object.values(AMCVolume);
     const AMCVolumeValMap = AMCVolumeVals.map(valMap);
 
-    // const yMinVolAMC = d3.min(AMCVolumeVals, d=> {
-    //   return d
-    // })
+    const yMinVolAMC = d3.min(AMCVolumeVals, d=> {
+      return d
+    })
 
     const yMaxVolAMC = d3.max(AMCVolumeVals, d=> {
       return d
@@ -385,8 +384,8 @@ const Main = () => {
 
     if (amcButton && !gmeButton) {
       const yVolAxisAMC = d3.scaleLinear()
-        .domain([0, yMaxVolAMC])
-        .range([height, 400])
+        .domain([yMinVolAMC, yMaxVolAMC])
+        .range([height, 600])
 
       svg.selectAll()
          .data(AMCVolumeCombined)
@@ -402,7 +401,7 @@ const Main = () => {
         .attr('fill', 'grey')
         .attr('width', 3)      
         .attr('height', d => {
-          return window.innerHeight - margin.bottom * 2.5 - yVolAxisAMC(d['value']);
+          return height - yVolAxisAMC(d['value']);
         });
       } else {
         d3.selectAll("#AMCVolume").remove()
