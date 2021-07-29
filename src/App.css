@@ -39,16 +39,15 @@
 
 .wrap{
   overflow: hidden;
-  position: relative;
 }
 
 .bg {
   opacity: 0.2;
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   width: 100vw;
-  height: 130vh;
+  height: 100vh;
 }
 
 .content {
