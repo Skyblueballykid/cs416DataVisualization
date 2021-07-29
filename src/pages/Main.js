@@ -5,6 +5,7 @@ import { AMCVolume, GMEVolume } from '../data/volume.js';
 import { Grid, Button, Card, CardContent, Typography } from '@material-ui/core';
 import { AnnotationLabel, AnnotationBracket } from 'react-annotation';
 import StopIcon from '@material-ui/icons/Stop';
+import { Link } from 'react-router-dom';
 
 const Main = () => {
     
@@ -488,11 +489,22 @@ useRenderChartToCanvas();
       direction="row"   
       justifyContent="center"
       alignItems="center">
+      {/* <Button variant="contained">
+            Previous Page
+        </Button>
+        &nbsp;&nbsp;&nbsp; */}
       <Button variant="contained"
       onClick={handleReset}
       >
       Restart
       </Button>
+      &nbsp;&nbsp;&nbsp;
+      <Link to="/smallcaps">
+      <Button variant="contained"
+      >
+        Next Page
+        </Button>
+      </Link>
       </Grid>
       <br/>
       <Grid 

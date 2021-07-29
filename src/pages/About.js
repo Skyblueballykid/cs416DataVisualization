@@ -1,10 +1,17 @@
 import React, {Fragment} from 'react';
 import './About.css';
+import { Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const About = () => {
     return(
         <Fragment>
     <div className="full-height">
+    <Link to="/analysis">
+      <Button variant="contained">
+        Previous Page
+        </Button>
+        </Link>
     <br/>
     <br/>
     <br/>

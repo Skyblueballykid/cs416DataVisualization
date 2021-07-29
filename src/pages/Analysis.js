@@ -1,7 +1,9 @@
 import * as d3 from 'd3';
+import { transition } from 'd3-transition';
 import { useRef, useEffect, Fragment } from 'react';
 import { AMCClose } from '../data/close_prices.js';
-import { Typography } from '@material-ui/core';
+import { Typography, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 const redditData = require('./subreddit.json')
 
@@ -29,8 +31,8 @@ const Analysis = () => {
 
     // SVG Bounds
     const margin = {top: 150, right: 150, bottom: 150, left: 150}
-    const width = window.innerWidth - 500
-    const height = window.innerHeight - 200
+    const width = window.innerWidth/2
+    const height = window.innerHeight/2
 
     const svg = d3.select(ScatterPlotRef.current)
     .attr('width', width + margin.left + margin.right)
@@ -66,9 +68,27 @@ const Analysis = () => {
         .attr('fill','black')
         .text('Posts')
 
+    svg.append('text')
+       .attr("id", "annotate0")
+       .attr('x',(width/2))
+       .attr('y', (height + 50))
+       .attr('text-anchor', 'middle')
+       .attr('font-size', '24px')
+       .attr('fill','black')
+       .text('Users')
+
+    svg.append('text')
+       .attr("id", "annotate0")
+       .attr('x',(width/2))
+       .attr('y', (height + 140))
+       .attr('text-anchor', 'middle')
+       .attr('font-size', '24px')
+       .attr('fill','black')
+       .text('Date')
+
     svg.append("g")
         .attr('id', 'xAxisDate')
-        .attr("transform", "translate(0," + (height + 70)+ ")")
+        .attr("transform", "translate(0," + (height + 90)+ ")")
         .call(d3.axisBottom(xAxisDate).ticks(10).tickFormat(monthFormat))
         .style("font-size","18px")
         .style("color", "black")
@@ -93,13 +113,30 @@ const Analysis = () => {
         .attr("cx", function(redditData) {return xAxis(redditData.Users)})
         .attr("cy", function(redditData) {return yAxis(redditData.Posts)})
         .attr("r", function(d) {return (d.Posts/d.Users)*10000})
-        .style("fill", "#69b3a2")
+        .style("fill", "red")
         .style("opacity", 0.8)
+
+    d3.transition()
+      .selectAll("circle")
+      .style("fill", "#69b3a2")
+      .duration(3000)
 
 }, [])
 
     return(
-        <Fragment>
+    <Fragment>
+        <Link to="/smallcaps">
+      <Button variant="contained">
+        Previous Page
+        </Button>
+        </Link>
+        &nbsp;&nbsp;&nbsp;
+      <Link to="/about">
+      <Button variant="contained"
+      >
+        Next Page
+        </Button>
+      </Link>
         <h1>Subreddit User Analysis</h1>
         <div id='d3div'>
         <svg ref={ScatterPlotRef}>
