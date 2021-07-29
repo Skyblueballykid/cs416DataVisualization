@@ -342,7 +342,8 @@ const Main = () => {
       .domain([0, yMaxVolGME])
       .range([height, 400])
 
-    svg.selectAll()
+    svg.append("g")
+       .selectAll()
        .data(GMEVolumeCombined)
        .enter()
        .append('rect')
