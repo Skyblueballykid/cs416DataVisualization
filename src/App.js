@@ -1,6 +1,6 @@
 import './App.css';
 import { Fragment} from 'react';
-import { Route, Switch, Redirect, Link, BrowserRouter as Router } from "react-router-dom"
+import { Route, Switch, Redirect, Link, BrowserRouter as Router } from "react-router-dom";
 import Main from './pages/Main';
 import About from './pages/About';
 import Smallcaps from './pages/SmallCaps';
