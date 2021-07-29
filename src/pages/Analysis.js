@@ -1,6 +1,5 @@
 import * as d3 from 'd3';
-import * as d3v4 from 'd3';
-import { useRef, Fragment } from 'react';
+import { useRef, useEffect, Fragment } from 'react';
 import { AMCClose } from '../data/close_prices.js';
 import { Typography } from '@material-ui/core';
 
@@ -14,13 +13,12 @@ const Analysis = () => {
 
     const monthFormat = d3.timeFormat("%m/%d");
 
-    // Dates range
+    useEffect(() => {
+
+    // Dates range, just pull it from AMC dataset
     const unixDates = Object.keys(AMCClose)
     // const first = unixDates[0]
 
-    // Raw data arrays
-    // const cleanDates = unixDates.map(dateFormat)
-    const AMCAdjClose = Object.values(AMCClose)
 
     // Define ranges
     const xMinDate = d3.min(unixDates, d => {
@@ -100,6 +98,7 @@ const Analysis = () => {
         .style("fill", "#69b3a2")
         .style("opacity", 0.8)
 
+}, [])
 
     return(
         <Fragment>
