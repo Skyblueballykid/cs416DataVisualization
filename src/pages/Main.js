@@ -40,8 +40,8 @@ const Main = () => {
 
     // SVG Bounds
     const margin = {top: 50, right: 150, bottom: 200, left: 150}
-    const width = window.innerWidth/2
-    const height = window.innerHeight/2
+    const width = window.innerWidth/1.8
+    const height = window.innerHeight/1.8
     
     // Dates range
     const unixDates = Object.keys(AMCClose)
