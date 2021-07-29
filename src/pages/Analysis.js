@@ -5,13 +5,11 @@ import { Typography } from '@material-ui/core';
 
 const redditData = require('./subreddit.json')
 
-console.log(redditData)
-
 const Analysis = () => {
 
     const ScatterPlotRef = useRef();
 
-    const monthFormat = d3.timeFormat("%m/%d");
+    const monthFormat = d3.timeFormat("%m/%d/%Y");
 
     useEffect(() => {
 
@@ -71,7 +69,7 @@ const Analysis = () => {
     svg.append("g")
         .attr('id', 'xAxisDate')
         .attr("transform", "translate(0," + (height + 70)+ ")")
-        .call(d3.axisBottom(xAxisDate).ticks(20).tickFormat(monthFormat))
+        .call(d3.axisBottom(xAxisDate).ticks(10).tickFormat(monthFormat))
         .style("font-size","18px")
         .style("color", "black")
 
