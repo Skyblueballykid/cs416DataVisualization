@@ -31,8 +31,8 @@ const Analysis = () => {
 
     // SVG Bounds
     const margin = {top: 150, right: 150, bottom: 150, left: 150}
-    const width = window.innerWidth/2
-    const height = window.innerHeight/2
+    const width = window.innerWidth/1.7
+    const height = window.innerHeight/1.7
 
     const svg = d3.select(ScatterPlotRef.current)
     .attr('width', width + margin.left + margin.right)
@@ -113,13 +113,17 @@ const Analysis = () => {
         .attr("cx", function(redditData) {return xAxis(redditData.Users)})
         .attr("cy", function(redditData) {return yAxis(redditData.Posts)})
         .attr("r", function(d) {return (d.Posts/d.Users)*10000})
-        .style("fill", "red")
+        .style("fill", "#69b3a2")
         .style("opacity", 0.8)
 
     d3.transition()
       .selectAll("circle")
-      .style("fill", "#69b3a2")
-      .duration(3000)
+      .filter(function(d) {
+          console.log(d)
+          return (d.Posts/d.Users)*10000 > 20
+      })
+      .style("fill", "black")
+      .duration(4000)
 
 }, [])
 
