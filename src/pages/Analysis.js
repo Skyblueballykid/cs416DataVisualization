@@ -11,6 +11,8 @@ const Analysis = () => {
 
     const ScatterPlotRef = useRef();
 
+    const [ data, setData ] = useState([]);
+
     useEffect(() => {
 
     // SVG Bounds
@@ -26,44 +28,44 @@ const Analysis = () => {
     .append('g')
       .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')');
 
-    d3.csv("https://raw.githubusercontent.com/Skyblueballykid/cs416DataVisualization/master/src/data/subbreddit-data.csv", function(d) {
-        // console.log("Posts Count: " + d['Posts count'], "User Count: " +  d['User Count'])
-        
-        // const maxPosts = d3.max(d['Posts count'], d => {
-        //     return d
-        // })
+    const xAxis = d3.scalePow()
+      .domain([8000000, 11000000])
+      .range([0, width])
 
-        // console.log("Max Posts: ", maxPosts)
+    svg.append("g")
+    .attr('id', 'xAxis')
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(xAxis).ticks(5))
+    .style("font-size","18px")
+    .style("color", "green")
 
-        const xAxis = d3.scalePow()
-                        .domain([0, 11000000])
-                        .range([0, width])
-        
-        svg.append("g")
-           .attr("transform", "translate(0," + height + ")")
-           .call(d3.axisBottom(xAxis).ticks(5))
-           .style("font-size","16px");
+    const yAxis = d3.scaleLinear()
+        .domain([0, 75000])
+        .range([height, 0])
 
-        const yAxis = d3.scaleLinear()
-                        .domain([30000, 75000])
-                        .range([height, 0])
+    svg.append("g")
+    .attr('id', 'yAxis')
+    .call(d3.axisLeft(yAxis).ticks(10))
+    .style("font-size","18px")
+    .style("color", "green")
 
-        svg.append("g")
-           .call(d3.axisLeft(yAxis).ticks(5))
-           .style("font-size","16px");
+    d3v4.csv("https://raw.githubusercontent.com/Skyblueballykid/cs416DataVisualization/master/src/data/subreddit-data.csv", function(d) {
+        // console.log("Posts Count: " + d.Posts, "User Count: " +  d.Users)
 
+        setData(d)
+        console.log(d)
+    })
+    
         // Add dots
-        svg.append('g')
-           .selectAll("dot")
-           .data(d)
-           .enter()
-           .append("circle")
-           .attr("cx", function(d) {return xAxis(d[0])})
-           .attr("cy", function(d) {return yAxis(d[1])})
-           .attr("r", 1)
-           .style("fill", "steelblue")
+    svg.selectAll()
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", function(data) {return xAxis(data.Users)})
+        .attr("cy", function(data) {return yAxis(data.Posts)})
+        .attr("r", 1) //function(d) {return d.Posts * d.Users/10000000000}
+        .style("fill", "steelblue")
 
-    }) 
 
     }, [])
 
