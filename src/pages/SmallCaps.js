@@ -1,10 +1,11 @@
 import * as d3 from 'd3';
 import { useEffect, useRef, useState, Fragment } from 'react';
-import { BBClose, KOSSClose, SNDLClose } from '../data/close_prices.js';
-import { BBVolume, KOSSVolume, SNDLVolume } from '../data/volume.js';
-import { Grid, Button, Card, CardContent, Typography  } from '@material-ui/core';
+import { KOSSClose, SNDLClose } from '../data/close_prices.js';
+import { KOSSVolume, SNDLVolume } from '../data/volume.js';
+import { Grid, Button, Card, CardContent, Typography } from '@material-ui/core';
 import { AnnotationLabel, AnnotationBracket } from 'react-annotation';
 import StopIcon from '@material-ui/icons/Stop';
+import { Link } from 'react-router-dom';
 
 const SmallCaps = () => {
     
@@ -12,45 +13,25 @@ const SmallCaps = () => {
 
     const monthFormat = d3.timeFormat("%m/%d");
 
-    const [ KOSSButton, setKOSSButton ] = useState(true);
-    const [ BBButton, setBBButton ] = useState(true);
+    const [ kossButton, setkossButton ] = useState(true);
+    const [ sndlButton, setsndlButton ] = useState(false);
     const [ annotation, setannotation ] = useState(0);
-
-    //Just use this to trigger a rerender
-    // const [ reset, setReset ] = useState(false);
-
-    // // Rerender on resize
-    // let [width, setWidth] = useState(window.innerWidth);
-    // const getWidth = () => window.innerWidth;
-
-    // const resizeListener = () => {
-    //   setWidth(getWidth)
-    //   d3.selectAll("g > *").remove()
-    //   setReset(!reset);
-    // };
-
-    // // set resize listener
-    // window.addEventListener('resize', resizeListener);
-
-    const useRenderChartToCanvas = () => {
-
-    useEffect(() => {
-
 
     // SVG Bounds
     const margin = {top: 50, right: 150, bottom: 200, left: 150}
-    const width = window.innerWidth - margin.left * 2 - margin.right * 2
-    const height = window.innerHeight - margin.bottom * 2 - margin.top * 2
+    const width = window.innerWidth/1.5
+    const height = window.innerHeight/1.5
 
-    
+    useEffect(() => {
+
     // Dates range
-    const unixDates = Object.keys(BBClose)
+    const unixDates = Object.keys(SNDLClose)
     // const first = unixDates[0]
 
     // Raw data arrays
     // const cleanDates = unixDates.map(dateFormat)
-    const BBAdjClose = Object.values(BBClose)
-    const KOSSAdjClose = Object.values(KOSSClose)
+    const sndlAdjClose = Object.values(SNDLClose)
+    const kossAdjClose = Object.values(KOSSClose)
 
     // Define ranges
     const xMinDate = d3.min(unixDates, d => {
@@ -70,7 +51,7 @@ const SmallCaps = () => {
     })
 
 
-    const BByMaxAdjClose = d3.max(Object.values(BBClose), d => {
+    const sndlyMaxAdjClose = d3.max(Object.values(SNDLClose), d => {
       return d
     })
 
@@ -81,7 +62,7 @@ const SmallCaps = () => {
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     // .attr("preserveAspectRatio", "xMinYMin meet")
-    // .attr("viewBox", "0 0 600 1000")
+    .attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom))
     // .classed("svg-content", true)
     .append('g')
       .attr('transform', 'translate('+ margin.left + ',' + margin.top + ')');
@@ -115,14 +96,14 @@ const SmallCaps = () => {
     //Date doesn't change so only need to do this once
     const mappedDate = unixDates.map(dateMap);
 
-    const BBmappedVals = BBAdjClose.map(valMap);
-    const KOSSmappedVals = KOSSAdjClose.map(valMap);
+    const SNDLmappedVals = sndlAdjClose.map(valMap);
+    const KOSSmappedVals = kossAdjClose.map(valMap);
 
-    const BBcombined = []
+    const SNDLcombined = []
     const KOSScombined = []
 
     for (let i = 0; i < mappedDate.length; i++){
-      BBcombined.push(Object.assign({}, mappedDate[i], BBmappedVals[i]))
+      SNDLcombined.push(Object.assign({}, mappedDate[i], SNDLmappedVals[i]))
     }
 
     for (let i = 0; i < mappedDate.length; i++){
@@ -133,26 +114,34 @@ const SmallCaps = () => {
                    .x(d => xAxis(d.date))
                    .y(d => yAxis(d.value));
 
+    // Add title
+    svg.append('text')
+        .attr('x',(width/1.9))
+        .attr('y', (margin.top/4.8))
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '22px')
+        .attr('fill','steelblue')
+        .text('KOSS and SNDL Price January 3, 2021 - July 12, 2021')
 
 
-    if (BBButton) {
-    // Add BB data
+    if (sndlButton) {
+    setkossButton(false)
+    // Add SNDL data
     svg.append('path')
-       .data([BBcombined])
-       .attr("id", "BB")
+       .data([SNDLcombined])
+       .attr("id", "SNDL")
        .style('fill', 'none')
        .attr('stroke', 'steelblue')
        .attr('stroke-width', 2)
        .attr('d', line)
 
     } else { 
-      d3.selectAll("#BB").remove()
+      d3.selectAll("#SNDL").remove()
       d3.selectAll("#annotate1").remove()
-      d3.selectAll("#annotate2").remove()
-      d3.selectAll("#annotate3").remove()
     }
 
-    if (KOSSButton) {
+    if (kossButton) {
+    setsndlButton(false)
     // Add KOSS data
       svg.append('path')
        .data([KOSScombined])
@@ -161,38 +150,18 @@ const SmallCaps = () => {
        .attr('stroke', 'green')
        .attr('stroke-width', 2)
        .attr('d', line)
-
     } else {
       d3.selectAll("#KOSS").remove()
-      d3.selectAll("#annotate4").remove()
-      d3.selectAll("#annotate5").remove()
-      d3.selectAll("#annotate6").remove()
+      d3.selectAll("#annotate2").remove()
     }
 
-    // Add title
-    svg.append('text')
-       .attr('x',(width/1.9))
-       .attr('y', (margin.top/4.8))
-       .attr('text-anchor', 'middle')
-       .attr('font-size', '22px')
-       .attr('fill','steelblue')
-       .text('KOSS and BB Price January 3, 2021 - July 12, 2021')
-
-    if (KOSSButton && annotation > 0) {
+    if (kossButton && annotation > 0) {
     // Add KOSS annotations
-      // svg.append('text')
-      //     .attr("id", "annotate1")
-      //     .attr('x',(width/5.3))
-      //     .attr('y', (margin.top/4.8))
-      //     .attr('text-anchor', 'middle')
-      //     .attr('font-size', '20px')
-      //     .attr('fill','blue')
-      //     .text('<--- Peak tendies 🍗🐔🍗')
 
         svg.append('text')
           .attr("id", "annotate1")
           .attr('x',(width/5))
-          .attr('y', (margin.top + 50))
+          .attr('y', (margin.top + 100))
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
           .attr('fill','blue')
@@ -202,95 +171,55 @@ const SmallCaps = () => {
       d3.selectAll("#annotate1").remove()
     }
 
-    if (KOSSButton && annotation > 1) {
-    
-      svg.append('text')
+    if (kossButton && annotation > 1) {
+      d3.selectAll("#annotate1").remove()
+    }
+
+    if (annotation < 4) {
+      d3.selectAll("#SNDL").remove()
+      setsndlButton(false);
+      setkossButton(true);
+    }
+
+    if (annotation > 3) {
+        setkossButton(false);
+        setsndlButton(true);
+    } 
+
+    if ( annotation > 6 ) {
+      setannotation(0)
+      d3.selectAll("#AMC").remove()
+      setsndlButton(false);
+      setkossButton(true);
+    }
+
+    if (sndlButton && annotation > 5) {
+
+          svg.append('text')
           .attr("id", "annotate2")
-          .attr('x',(width/3.5))
-          .attr('y', (margin.top * 1.5))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('')
-    } else {
-      d3.selectAll("#annotate2").remove()
-    }
-
-    if (KOSSButton && annotation > 2) {
-
-          svg.append('text')
-          .attr("id", "annotate3")
-          .attr('x',(width/1.3))
-          .attr('y', (margin.top))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('')
-
-    } else {
-      
-      d3.selectAll("#annotate3").remove()
-    }
-
-    if (BBButton && annotation > 3) {
-          // Add BB annotations
-        svg.append('text')
-          .attr("id", "annotate4")
-          .attr('x',(width/6))
-          .attr('y', (height - 40))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('') 
-    } else {
-      d3.selectAll("#annotate4").remove()
-
-    }
-
-    if (BBButton && annotation > 4) {
-      svg.append('text')
-          .attr("id", "annotate5")
-          .attr('x',(width/3.5))
-          .attr('y', (height - 40))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('')
-    } else {
-
-      d3.selectAll("#annotate5").remove()
-    }
-
-    if (BBButton && annotation > 5) {
-          // svg.append('text')
-          // .attr("id", "annotate6")
-          // .attr('x',(width/1.4))
-          // .attr('y', (height - 80))
-          // .attr('text-anchor', 'middle')
-          // .attr('font-size', '20px')
-          // .attr('fill','blue')
-          // .text('Peak tendies 🍗🐔🍗 --->')
-
-          svg.append('text')
-          .attr("id", "annotate6")
           .attr('x',(width/1.1))
           .attr('y', (height/1.1))
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
           .attr('fill','red')
-          .text(d3.format("($.2f") (BByMaxAdjClose))
+          .text(d3.format("($.2f") (sndlyMaxAdjClose))
 
     } else {
-      d3.selectAll("#annotate6").remove()
+      d3.selectAll("#annotate2").remove()
     }
+
+    if (sndlButton && annotation > 6) {
+      d3.selectAll("#annotate2").remove()
+    }
+
 
     // KOSS Volume
     const KOSSVolumeVals = Object.values(KOSSVolume);
     const KOSSVolumeValMap = KOSSVolumeVals.map(valMap);
 
-    // const yMinVolKOSS = d3.min(KOSSVolumeVals, d=> {
-    //   return d
-    // })
+    const yMinVolKOSS = d3.min(KOSSVolumeVals, d=> {
+      return d
+    })
 
     const yMaxVolKOSS = d3.max(KOSSVolumeVals, d=> {
       return d
@@ -302,13 +231,14 @@ const SmallCaps = () => {
       KOSSVolumeCombined.push(Object.assign({}, mappedDate[i], KOSSVolumeValMap[i]))
     }
 
-    if (KOSSButton) {
+    if (kossButton) {
 
       const yVolAxisKOSS = d3.scaleLinear()
-      .domain([0, yMaxVolKOSS])
-      .range([height, 400])
+      .domain([yMinVolKOSS, yMaxVolKOSS])
+      .range([height, 600])
 
-    svg.selectAll()
+    svg.append("g")
+       .selectAll()
        .data(KOSSVolumeCombined)
        .enter()
        .append('rect')
@@ -322,70 +252,71 @@ const SmallCaps = () => {
       .attr('fill', 'black')
       .attr('width', 3)      
       .attr('height', d => {
-        return window.innerHeight - margin.bottom * 2.5 - yVolAxisKOSS(d['value']);
+        return height - yVolAxisKOSS(d['value']);
       });
     } else {
       d3.selectAll("#KOSSVolume").remove()
     }
 
-    // BB Volume
-    const BBVolumeVals = Object.values(BBVolume);
-    const BBVolumeValMap = BBVolumeVals.map(valMap);
+    // SNDL Volume
+    const SNDLVolumeVals = Object.values(SNDLVolume);
+    const SNDLVolumeValMap = SNDLVolumeVals.map(valMap);
 
-    // const yMinVolBB = d3.min(BBVolumeVals, d=> {
-    //   return d
-    // })
-
-    const yMaxVolBB = d3.max(BBVolumeVals, d=> {
+    const yMinVolSNDL = d3.min(SNDLVolumeVals, d=> {
       return d
     })
 
-    const BBVolumeCombined = [] 
+    const yMaxVolSNDL = d3.max(SNDLVolumeVals, d=> {
+      return d
+    })
+
+    const SNDLVolumeCombined = [] 
     
     for (let i = 0; i < mappedDate.length; i++){
-      BBVolumeCombined.push(Object.assign({}, mappedDate[i], BBVolumeValMap[i]))
+      SNDLVolumeCombined.push(Object.assign({}, mappedDate[i], SNDLVolumeValMap[i]))
     }
 
 
-    if (BBButton && !KOSSButton) {
-      const yVolAxisBB = d3.scaleLinear()
-        .domain([0, yMaxVolBB])
-        .range([height, 400])
+    if (sndlButton && !kossButton) {
+      const yVolAxisSNDL = d3.scaleLinear()
+        .domain([yMinVolSNDL, yMaxVolSNDL])
+        .range([height, 600])
 
       svg.selectAll()
-         .data(BBVolumeCombined)
+         .data(SNDLVolumeCombined)
          .enter()
          .append('rect')
-         .attr('id', 'BBVolume')
+         .attr('id', 'SNDLVolume')
          .attr('x', d => {
            return xAxis(d['date'])
          })
          .attr('y', d => {
-           return yVolAxisBB(d['value'])
+           return yVolAxisSNDL(d['value'])
          })
         .attr('fill', 'grey')
         .attr('width', 3)      
         .attr('height', d => {
-          return window.innerHeight - margin.bottom * 2.5 - yVolAxisBB(d['value']);
+          return height - yVolAxisSNDL(d['value']);
         });
       } else {
-        d3.selectAll("#BBVolume").remove()
+        d3.selectAll("#SNDLVolume").remove()
       }
 
 
 
-  }, [KOSSButton, BBButton, annotation]) //resizeListener
-}
+  }, [kossButton, sndlButton, annotation, width, height])
 
-useRenderChartToCanvas();
 
   const handleKOSSClick = () => {
-    setKOSSButton(!KOSSButton)
-    d3.selectAll("#BBVolume").remove()
+    setkossButton(!kossButton)
+    setsndlButton(false)
+    setannotation(0)
   }
 
-  const handleBBClick = () => {
-    setBBButton(!BBButton)
+  const handleSNDLClick = () => {
+    setsndlButton(!sndlButton)
+    setkossButton(false)
+    setannotation(4)
   }
 
   const handlePlay = () => {
@@ -400,12 +331,14 @@ useRenderChartToCanvas();
     }
   }
 
+  const handleReset = () => {
+    setannotation(0)
+    setsndlButton(false)
+    setkossButton(true)
+  }
+
   return (
       <Fragment>
-      <br/>
-      <br/>
-      <br/>
-      <br/>
       <Grid 
       container
       direction="row"   
@@ -427,12 +360,13 @@ useRenderChartToCanvas();
       </Grid>
       &nbsp;&nbsp;
       <Grid>
+        
       <Button 
       variant="contained" 
       color="primary"
-      onClick={handleBBClick}
+      onClick={handleSNDLClick}
       >
-        BB
+        SNDL
       </Button>
       &nbsp;&nbsp;
       <Button variant="contained"
@@ -442,6 +376,34 @@ useRenderChartToCanvas();
       &nbsp;&nbsp;
       </Grid>
       <br/>
+      <br/>
+      <br/>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+        <Link to="/main">
+      <Button variant="contained">
+            Previous Page
+        </Button>
+        </Link>
+        &nbsp;&nbsp;&nbsp;
+      <Button variant="contained"
+      onClick={handleReset}
+      >
+      Restart
+      </Button>
+      &nbsp;&nbsp;&nbsp;
+      <Link to="/analysis">
+      <Button variant="contained"
+      >
+        Next Page
+        </Button>
+      </Link>
+      </Grid>
+      <br/>
       <Grid 
       container
       direction="row"   
@@ -449,8 +411,6 @@ useRenderChartToCanvas();
       alignItems="center">
       <p><i>Toggle the stock charts and click the red buttons to add and remove annotations.</i></p>
       </Grid>
-      <br/>
-      <br/>
       <br/>
       <br/>
       <br/>
@@ -465,23 +425,51 @@ useRenderChartToCanvas();
             <b>Legend</b>
           </Typography>
           <Typography variant="body1" component="body1">
-          <StopIcon fontSize="small" style={{ color: "green" }}></StopIcon> KOSS Corporation &nbsp;
+          <StopIcon fontSize="small" style={{ color: "green" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KOSS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Typography>
           <br/>
           <Typography variant="body1" component="body1">
-          <StopIcon fontSize="small" style={{ color: "steelblue" }}></StopIcon> BlackBerry Limited
+          <StopIcon fontSize="small" style={{ color: "steelblue" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SNDL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Typography>
         </CardContent>
       </Card>
       </Grid>
-      
+      </Grid>
+      <br/>
+      <br/>
+      <Grid 
+      container
+      direction="row"   
+      justifyContent="center"
+      alignItems="center">
+      {annotation === 0 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
+      {annotation === 1 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
+      {annotation === 2 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
+      {annotation === 3 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
+      {annotation === 4 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
+      {annotation === 5 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
+      {annotation === 6 ?
+      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      : ""}
       </Grid>
       <div id='d3div'>
       <svg ref={d3Ref}>
-        { annotation > 0 ?  
+        { annotation === 1 ?  
       <AnnotationLabel
-        x={window.innerWidth/5.5}
-        y={50}
+        x={width/5}
+        y={70}
         dy={60}
         dx={162}
         color={"#000fff"}
@@ -492,9 +480,10 @@ useRenderChartToCanvas();
         connector={{"type":"line","end":null}}
       />
        : "" }
-       { annotation > 1 ?
+       { annotation === 2 ?
+       <Fragment>
         <AnnotationLabel
-        x={window.innerWidth/3.5}
+        x={width/2.5}
         y={175}
         dy={80}
         dx={240}
@@ -505,10 +494,11 @@ useRenderChartToCanvas();
           "align":"middle"}}
         connector={{"type":"line","end":null}}
       />
+      </Fragment>
       : ""}
-      { annotation > 2 ?
+      { annotation === 3 ?
         <AnnotationLabel
-        x={window.innerWidth/1.7}
+        x={width/1.2}
         y={140}
         dy={80}
         dx={240}
@@ -520,34 +510,48 @@ useRenderChartToCanvas();
         connector={{"type":"line","end":null}}
       />
       : ""}
-      { annotation > 3 ?
+      { annotation === 4 ?
         <AnnotationLabel
-        x={window.innerWidth/5.5}
-        y={540}
+        x={width/5}
+        y={height/1.2}
         dy={10}
         dx={162}
         color={"red"}
-        note={{"title":"BB Peak",
+        note={{"title":"SNDL Near Peak",
           "label":"",
           "lineType":"horizontal",
           "align":"middle"}}
         connector={{"type":"line","end":null}}
       />
       : ""}
-      { annotation > 4 ?
+      { annotation === 5 ?
         <AnnotationBracket
-        x={window.innerWidth/3.5}
-        y={440}
+        x={width/2.5}
+        y={height/1.2}
         dy={10}
         dx={162}
         color={"red"}
-        note={{"title":"No subsequent BB recovery", "padding": 0}}
+        note={{"title":"No subsequent SNDL recovery", "padding": 0}}
         subject={{"height":70,"type":"curly"}}
+      />
+      : ""}
+      { annotation === 6 ?
+        <AnnotationLabel
+        x={width/1.2}
+        y={height/1.2}
+        dy={80}
+        dx={240}
+        color={"red"}
+        note={{"title":"SNDL Peak",
+          "label":"",
+          "lineType":"horizontal",
+          "align":"middle"}}
+        connector={{"type":"line","end":null}}
       />
       : ""}
       </svg>
       </div>
-      </Fragment>
+       </Fragment>
   );
 }
 

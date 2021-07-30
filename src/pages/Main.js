@@ -17,32 +17,13 @@ const Main = () => {
     const [ amcButton, setAMCButton ] = useState(false);
     const [ annotation, setannotation ] = useState(0);
 
-    //Just use this to trigger a rerender
-    // const [ reset, setReset ] = useState(false);
-
-    // // Rerender on resize
-    // let [width, setWidth] = useState(window.innerWidth);
-    // const getWidth = () => window.innerWidth;
-
-    // const resizeListener = () => {
-    //   setWidth(getWidth)
-    //   d3.selectAll("g > *").remove()
-    //   setReset(!reset);
-    // };
-
-    // // set resize listener
-    // window.addEventListener('resize', resizeListener);
-
-    const useRenderChartToCanvas = () => {
-
-    useEffect(() => {
-
-
     // SVG Bounds
     const margin = {top: 50, right: 150, bottom: 200, left: 150}
     const width = window.innerWidth/1.5
     const height = window.innerHeight/1.5
-    
+
+    useEffect(() => {
+
     // Dates range
     const unixDates = Object.keys(AMCClose)
     // const first = unixDates[0]
@@ -133,6 +114,14 @@ const Main = () => {
                    .x(d => xAxis(d.date))
                    .y(d => yAxis(d.value));
 
+    // Add title
+    svg.append('text')
+        .attr('x',(width/1.9))
+        .attr('y', (margin.top/4.8))
+        .attr('text-anchor', 'middle')
+        .attr('font-size', '22px')
+        .attr('fill','steelblue')
+        .text('GME and AMC Price January 3, 2021 - July 12, 2021')
 
 
     if (amcButton) {
@@ -149,8 +138,6 @@ const Main = () => {
     } else { 
       d3.selectAll("#AMC").remove()
       d3.selectAll("#annotate1").remove()
-      d3.selectAll("#annotate2").remove()
-      d3.selectAll("#annotate3").remove()
     }
 
     if (gmeButton) {
@@ -165,65 +152,16 @@ const Main = () => {
        .attr('d', line)
     } else {
       d3.selectAll("#GME").remove()
-      d3.selectAll("#annotate4").remove()
-      d3.selectAll("#annotate5").remove()
-      d3.selectAll("#annotate6").remove()
+      d3.selectAll("#annotate2").remove()
     }
 
-    // Add title
-    svg.append('text')
-       .attr('x',(width/1.9))
-       .attr('y', (margin.top/4.8))
-       .attr('text-anchor', 'middle')
-       .attr('font-size', '22px')
-       .attr('fill','steelblue')
-       .text('GME and AMC Price January 3, 2021 - July 12, 2021')
-
-    svg.append('text')
-       .attr("id", "annotate0")
-       .attr('x',(width/2))
-       .attr('y', (height + 60))
-       .attr('text-anchor', 'middle')
-       .attr('font-size', '24px')
-       .attr('fill','black')
-       .text('')
-    
-    svg.append('text')
-       .attr("id", "annotate0")
-       .attr('x',(width/2))
-       .attr('y', (height + 90))
-       .attr('text-anchor', 'middle')
-       .attr('font-size', '24px')
-       .attr('fill','black')
-       .text('')
-    
-
     if (gmeButton && annotation > 0) {
-
-      d3.selectAll("#annotate0").remove()
     // Add GME annotations
-      svg.append('text')
-          .attr("id", "annotate1")
-          .attr('x',(width/2))
-          .attr('y', (height + 60))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
-          .attr('fill','black')
-          .text("")
-      
-          svg.append('text')
-          .attr("id", "annotate1")
-          .attr('x',(width/2))
-          .attr('y', (height + 90))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
-          .attr('fill','black')
-        .text("")
-          
+
         svg.append('text')
           .attr("id", "annotate1")
           .attr('x',(width/5))
-          .attr('y', (margin.top + 50))
+          .attr('y', (margin.top + 100))
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
           .attr('fill','blue')
@@ -234,79 +172,31 @@ const Main = () => {
     }
 
     if (gmeButton && annotation > 1) {
-
       d3.selectAll("#annotate1").remove()
-      svg.append('text')
-          .attr("id", "annotate2")
-          .attr('x',(width/2))
-          .attr('y', (height + 60))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
-          .attr('fill','black')
-          .text('')
-    } else {
-      d3.selectAll("#annotate2").remove()
     }
 
-    if (gmeButton && annotation > 2) {
-        d3.selectAll("#annotate2").remove()
-
-          svg.append('text')
-          .attr("id", "annotate3")
-          .attr('x',(width/2))
-          .attr('y', (height + 90))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '24px')
-          .attr('fill','black')
-          .text('')
-
-    } else {
-      
-      d3.selectAll("#annotate3").remove()
+    if (annotation < 4) {
+      d3.selectAll("#AMC").remove()
+      setAMCButton(false);
+      setGMEButton(true);
     }
 
-    if (amcButton && annotation > 3) {
-        d3.selectAll("#annotate3").remove()
-          // Add AMC annotations
-        svg.append('text')
-          .attr("id", "annotate4")
-          .attr('x',(width/6))
-          .attr('y', (height - 40))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('') 
-    } else {
-      d3.selectAll("#annotate4").remove()
+    if (annotation > 3) {
+        setGMEButton(false);
+        setAMCButton(true);
+    } 
 
-    }
-
-    if (amcButton && annotation > 4) {
-      svg.append('text')
-          .attr("id", "annotate5")
-          .attr('x',(width/3.5))
-          .attr('y', (height - 40))
-          .attr('text-anchor', 'middle')
-          .attr('font-size', '20px')
-          .attr('fill','blue')
-          .text('')
-    } else {
-
-      d3.selectAll("#annotate5").remove()
+    if ( annotation > 6 ) {
+      setannotation(0)
+      d3.selectAll("#AMC").remove()
+      setAMCButton(false);
+      setGMEButton(true);
     }
 
     if (amcButton && annotation > 5) {
-          // svg.append('text')
-          // .attr("id", "annotate6")
-          // .attr('x',(width/1.4))
-          // .attr('y', (height - 80))
-          // .attr('text-anchor', 'middle')
-          // .attr('font-size', '20px')
-          // .attr('fill','blue')
-          // .text('Peak tendies 🍗🐔🍗 --->')
 
           svg.append('text')
-          .attr("id", "annotate6")
+          .attr("id", "annotate2")
           .attr('x',(width/1.1))
           .attr('y', (height/1.1))
           .attr('text-anchor', 'middle')
@@ -315,8 +205,13 @@ const Main = () => {
           .text(d3.format("($.2f") (amcyMaxAdjClose))
 
     } else {
-      d3.selectAll("#annotate6").remove()
+      d3.selectAll("#annotate2").remove()
     }
+
+    if (amcButton && annotation > 6) {
+      d3.selectAll("#annotate2").remove()
+    }
+
 
     // GME Volume
     const GMEVolumeVals = Object.values(GMEVolume);
@@ -409,20 +304,19 @@ const Main = () => {
 
 
 
-  }, [gmeButton, amcButton, annotation]) //resizeListener
-}
+  }, [gmeButton, amcButton, annotation, width, height])
 
-useRenderChartToCanvas();
 
   const handleGMEClick = () => {
     setGMEButton(!gmeButton)
     setAMCButton(false)
-    d3.selectAll("#AMCVolume").remove()
+    setannotation(0)
   }
 
   const handleAMCClick = () => {
     setAMCButton(!amcButton)
     setGMEButton(false)
+    setannotation(4)
   }
 
   const handlePlay = () => {
@@ -439,6 +333,8 @@ useRenderChartToCanvas();
 
   const handleReset = () => {
     setannotation(0)
+    setAMCButton(false)
+    setGMEButton(true)
   }
 
   return (
@@ -554,15 +450,24 @@ useRenderChartToCanvas();
       <Typography variant="h5" component="h5" color="secondary">After the massive price action, the stock price quickly collapsed, but then saw a subsequent recovery 1 month later.</Typography>
       : ""}
       {annotation === 3 ?
-      <Typography variant="h5" component="h5" color="secondary">The stock traded with high volatility until nearly recovering losses in June.</Typography>
+      <Typography variant="h5" component="h5" color="secondary">The stock traded with high volatility until nearly recovering losses in June. The long term outcome for GameStop Corporation is unknown.</Typography>
+      : ""}
+      {annotation === 4 ?
+      <Typography variant="h5" component="h5" color="secondary">The chart for beleaguered movie theater operator AMC tells a different story. Despite significant price appreciation in January, the 2021 high would later be surpassed.</Typography>
+      : ""}
+      {annotation === 5 ?
+      <Typography variant="h5" component="h5" color="secondary">AMC showed no significant recovery in February, March or April.</Typography>
+      : ""}
+      {annotation === 6 ?
+      <Typography variant="h5" component="h5" color="secondary">In June of 2021, AMC shares rallied and handily surpassed the previous 2021 peak set in January.</Typography>
       : ""}
       </Grid>
       <div id='d3div'>
       <svg ref={d3Ref}>
         { annotation === 1 ?  
       <AnnotationLabel
-        x={window.innerWidth/5.5}
-        y={50}
+        x={width/5}
+        y={70}
         dy={60}
         dx={162}
         color={"#000fff"}
@@ -576,7 +481,7 @@ useRenderChartToCanvas();
        { annotation === 2 ?
        <Fragment>
         <AnnotationLabel
-        x={window.innerWidth/3.5}
+        x={width/2.5}
         y={175}
         dy={80}
         dx={240}
@@ -591,7 +496,7 @@ useRenderChartToCanvas();
       : ""}
       { annotation === 3 ?
         <AnnotationLabel
-        x={window.innerWidth/1.7}
+        x={width/1.2}
         y={140}
         dy={80}
         dx={240}
@@ -605,8 +510,8 @@ useRenderChartToCanvas();
       : ""}
       { annotation === 4 ?
         <AnnotationLabel
-        x={window.innerWidth/5.5}
-        y={540}
+        x={width/5}
+        y={height/1.2}
         dy={10}
         dx={162}
         color={"red"}
@@ -619,8 +524,8 @@ useRenderChartToCanvas();
       : ""}
       { annotation === 5 ?
         <AnnotationBracket
-        x={window.innerWidth/3.5}
-        y={440}
+        x={width/2.5}
+        y={height/1.2}
         dy={10}
         dx={162}
         color={"red"}
@@ -630,8 +535,8 @@ useRenderChartToCanvas();
       : ""}
       { annotation === 6 ?
         <AnnotationLabel
-        x={window.innerWidth/2}
-        y={450}
+        x={width/1.2}
+        y={height/1.2}
         dy={80}
         dx={240}
         color={"red"}

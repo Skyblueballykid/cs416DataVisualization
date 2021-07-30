@@ -103,6 +103,7 @@ const Analysis = () => {
     .style("font-size","18px")
     .style("color", "black")
 
+
         // Add dots
     svg.append("g")
        .attr("id", "dot")
@@ -115,11 +116,12 @@ const Analysis = () => {
         .attr("r", function(d) {return (d.Posts/d.Users)*10000})
         .style("fill", "#69b3a2")
         .style("opacity", 0.8)
+   
 
     d3.transition()
       .selectAll("circle")
       .filter(function(d) {
-          console.log(d)
+        //   console.log(d)
           return (d.Posts/d.Users)*10000 > 5
       })
       .style("fill", "black")
