@@ -54,10 +54,10 @@ function App() {
       </Tabs>
 
       <Typography variant='h4'>
-      <h1> CS 416 Data Visualization Project</h1>
+      <h2> CS 416 Data Visualization Project</h2>
       </Typography>
       <Typography variant='h5'>
-      <h5>An Analysis of Meme Stock Price and Volume during the meme stock craze</h5>
+      <h5>An interactive exploration of the meme stock craze</h5>
       </Typography>
 
     <Route path="/main" component={Main}/>
