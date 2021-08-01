@@ -510,7 +510,7 @@ const Main = () => {
       : ""}
       { annotation === 4 ?
         <AnnotationLabel
-        x={width/5}
+        x={width/4.5}
         y={height}
         dy={10}
         dx={162}
@@ -535,7 +535,7 @@ const Main = () => {
       : ""}
       { annotation === 6 ?
         <AnnotationLabel
-        x={width/1.2}
+        x={width/1.1}
         y={height}
         dy={80}
         dx={240}
