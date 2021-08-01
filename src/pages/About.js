@@ -28,6 +28,12 @@ const About = () => {
     <li>
         <h3>GameStop Short interest: <a href="https://www.reuters.com/article/us-retail-trading-gamestop-short-idUSKBN2BG28H">https://www.reuters.com/article/us-retail-trading-gamestop-short-idUSKBN2BG28H</a></h3>
     </li>
+    <li>
+        <h3>Sundial Growers Hype: <a href="https://www.nasdaq.com/articles/the-meme-stock-update-for-the-ever-growing-reddit-buzz-2021-06-04">https://www.nasdaq.com/articles/the-meme-stock-update-for-the-ever-growing-reddit-buzz-2021-06-04</a></h3>
+    </li>
+    <li>
+        <h3>Sundial Growers Outlook: <a href="https://www.fool.com/investing/2021/02/02/5-ultra-popular-stocks-avoid-like-plague-february/">https://www.fool.com/investing/2021/02/02/5-ultra-popular-stocks-avoid-like-plague-february/</a></h3>
+    </li>
     </ul>
     </div>
     </Fragment>

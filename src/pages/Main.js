@@ -444,19 +444,19 @@ const Main = () => {
       <Typography variant="h5" component="h5" color="secondary">Our story begins when saavy retail stock traders identified stocks with heavy short interest from institutional investors on wallstreet. These stocks collectively became known as the "meme stocks".</Typography>
       : ""}
       {annotation === 1 ?
-      <Typography variant="h5" component="h5" color="secondary">The most heavily shorted of these, GameStop Corporation, at one time had short interest of as much as 141% <a href="https://www.reuters.com/article/us-retail-trading-gamestop-short-idUSKBN2BG28H">(source)</a>. Retail traders, led by /u/RoaringKitty and others, banded together on the popular subreddit r/Wallstreetbets and their collective buying power drove the price to a peak of $347.51.</Typography>
+      <Typography variant="h5" component="h5" color="secondary">The most heavily shorted of these, GameStop Corporation, at one time had short interest of as much as 141% <a href="https://www.reuters.com/article/us-retail-trading-gamestop-short-idUSKBN2BG28H">(source)</a>. Retail traders, led by /u/RoaringKitty and others, banded together on the popular subreddit r/Wallstreetbets and their collective buying power and high volume of trading (as illustrated by the volume bar charts) drove the price to a peak of $347.51.</Typography>
       : ""}
       {annotation === 2 ?
-      <Typography variant="h5" component="h5" color="secondary">After the massive price action, the stock price quickly collapsed, but then saw a subsequent recovery 1 month later.</Typography>
+      <Typography variant="h5" component="h5" color="secondary">After the massive price action, the stock price quickly collapsed, but then saw high trading volume and a subsequent recovery 1 month later.</Typography>
       : ""}
       {annotation === 3 ?
       <Typography variant="h5" component="h5" color="secondary">The stock traded with high volatility until nearly recovering losses in June. The long term outcome for GameStop Corporation is unknown.</Typography>
       : ""}
       {annotation === 4 ?
-      <Typography variant="h5" component="h5" color="secondary">The chart for beleaguered movie theater operator AMC tells a different story. Despite significant price appreciation in January, the 2021 high would later be surpassed.</Typography>
+      <Typography variant="h5" component="h5" color="secondary">The chart for beleaguered movie theater operator AMC tells a different story. Despite significant price appreciation in January, the 2021 high would later be surpassed. The price rally to $19.90 and near immediate decline coincided with the GameStop price appreciation.</Typography>
       : ""}
       {annotation === 5 ?
-      <Typography variant="h5" component="h5" color="secondary">AMC showed no significant recovery in February, March or April.</Typography>
+      <Typography variant="h5" component="h5" color="secondary">Unlike shares of GameStop, AMC showed no significant recovery in February, March or April.</Typography>
       : ""}
       {annotation === 6 ?
       <Typography variant="h5" component="h5" color="secondary">In June of 2021, AMC shares rallied and handily surpassed the previous 2021 peak set in January.</Typography>
@@ -466,7 +466,7 @@ const Main = () => {
       <svg ref={d3Ref}>
         { annotation === 1 ?  
       <AnnotationLabel
-        x={width/5}
+        x={width/4.5}
         y={70}
         dy={60}
         dx={162}
@@ -481,7 +481,7 @@ const Main = () => {
        { annotation === 2 ?
        <Fragment>
         <AnnotationLabel
-        x={width/2.5}
+        x={width/2}
         y={175}
         dy={80}
         dx={240}
@@ -511,7 +511,7 @@ const Main = () => {
       { annotation === 4 ?
         <AnnotationLabel
         x={width/5}
-        y={height/1.2}
+        y={height}
         dy={10}
         dx={162}
         color={"red"}
@@ -525,7 +525,7 @@ const Main = () => {
       { annotation === 5 ?
         <AnnotationBracket
         x={width/2.5}
-        y={height/1.2}
+        y={height}
         dy={10}
         dx={162}
         color={"red"}
@@ -536,7 +536,7 @@ const Main = () => {
       { annotation === 6 ?
         <AnnotationLabel
         x={width/1.2}
-        y={height/1.2}
+        y={height}
         dy={80}
         dx={240}
         color={"red"}
