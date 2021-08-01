@@ -54,7 +54,7 @@ function App() {
       </Tabs>
 
       <Typography variant='h4'>
-      <h2> CS 416 Data Visualization Project</h2>
+      <h2> r/Wallstreetbets: An internet phenomenon</h2>
       </Typography>
       <Typography variant='h5'>
       <h5>An interactive exploration of the meme stock craze</h5>
