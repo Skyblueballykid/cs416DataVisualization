@@ -198,7 +198,7 @@ const SmallCaps = () => {
           svg.append('text')
           .attr("id", "annotate2")
           .attr('x',(width/4.5))
-          .attr('y', height)
+          .attr('y', height/1.2)
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
           .attr('fill','red')
