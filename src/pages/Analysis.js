@@ -145,7 +145,7 @@ const Analysis = () => {
         </Button>
       </Link>
         <h1>Subreddit User Analysis</h1>
-        <Typography variant="h5" component="h5" color="secondary">This visualization illustrates the ratio of r/Wallstreetbets users to the number of daily posts by those users over the 6-month period from January 3, 2021 to July 12, 2021. A color transition occurs when this ratio surpasses the arbitrary cutoff of 5, which coincides well with the trading volume and price appreciation seen in the stocks highlighted. </Typography>
+        <Typography variant="h5" component="h5" color="secondary">This visualization illustrates the ratio of r/Wallstreetbets users to the number of daily posts by those users over the 6-month period from January 3, 2021 to July 12, 2021. A color transition occurs when this ratio surpasses the arbitrary cutoff of 5, which coincides well with the instances of high trading volume and price appreciation seen in the stocks highlighted. </Typography>
         <div id='d3div'>
         <svg ref={ScatterPlotRef}>
         <AnnotationLabel
