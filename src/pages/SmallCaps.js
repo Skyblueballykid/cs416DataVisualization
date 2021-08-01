@@ -193,12 +193,12 @@ const SmallCaps = () => {
       setkossButton(true);
     }
 
-    if (sndlButton && annotation > 5) {
+    if (sndlButton && annotation === 4) {
 
           svg.append('text')
           .attr("id", "annotate2")
-          .attr('x',(width/1.1))
-          .attr('y', (height/1.1))
+          .attr('x',(width/4.5))
+          .attr('y', height)
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
           .attr('fill','red')
@@ -360,7 +360,6 @@ const SmallCaps = () => {
       </Grid>
       &nbsp;&nbsp;
       <Grid>
-        
       <Button 
       variant="contained" 
       color="primary"
@@ -425,11 +424,11 @@ const SmallCaps = () => {
             <b>Legend</b>
           </Typography>
           <Typography variant="body1" component="body1">
-          <StopIcon fontSize="small" style={{ color: "green" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KOSS &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <StopIcon fontSize="small" style={{ color: "green" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; KOSS  Corporation &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Typography>
           <br/>
           <Typography variant="body1" component="body1">
-          <StopIcon fontSize="small" style={{ color: "steelblue" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; SNDL &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <StopIcon fontSize="small" style={{ color: "steelblue" }}></StopIcon> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Sundial Growers Inc &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
           </Typography>
         </CardContent>
       </Card>
@@ -443,32 +442,32 @@ const SmallCaps = () => {
       justifyContent="center"
       alignItems="center">
       {annotation === 0 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">Koss Corporation, a headphone manufacturer, and Sundial Growers, Inc., a Canadian cannabis producer, experienced similar price action as GME and AMC, but arguably with no appreciable catalysts to drive price appreciation. While GME had notable short interest of over 100%, KOSS and SNDL experienced price appreciation largely due to hype. <a href="https://www.nasdaq.com/articles/the-meme-stock-update-for-the-ever-growing-reddit-buzz-2021-06-04">(source)</a></Typography>
       : ""}
       {annotation === 1 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">Despite a largely hype driven narrative, the price for Koss Corporation largely followed that of GME with a peak in January, followed by a subsequent massive decline.</Typography>
       : ""}
       {annotation === 2 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">Koss experienced a price recovery after the significant loss that occured in January and February.</Typography>
       : ""}
       {annotation === 3 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">Similar to GME, the stock experienced a near peak price again in June.</Typography>
       : ""}
       {annotation === 4 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">The chart of Sundial growers is distinctly different from Koss Corporation and GameStop and illustrates the effect of a completely hype driven stock narrative. SNDL price peaked in January, similar to KOSS and GME.</Typography>
       : ""}
       {annotation === 5 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">Sundial experienced no subsequent price recovery after the initial peak, as was seen in GameStop and Koss Corporation.</Typography>
       : ""}
       {annotation === 6 ?
-      <Typography variant="h5" component="h5" color="secondary"></Typography>
+      <Typography variant="h5" component="h5" color="secondary">Despite a slight price recovery and higher trading volume in June, the long term fundamental outlook for Sundial appears bleak. The company took advantage of the January price appreciation to issue more stock and dilute the value of shares held by existing investors. <a href="https://www.fool.com/investing/2021/02/02/5-ultra-popular-stocks-avoid-like-plague-february/">(Source)</a></Typography>
       : ""}
       </Grid>
       <div id='d3div'>
       <svg ref={d3Ref}>
         { annotation === 1 ?  
       <AnnotationLabel
-        x={width/5}
+        x={width/4.5}
         y={70}
         dy={60}
         dx={162}
@@ -483,7 +482,7 @@ const SmallCaps = () => {
        { annotation === 2 ?
        <Fragment>
         <AnnotationLabel
-        x={width/2.5}
+        x={width/2}
         y={175}
         dy={80}
         dx={240}
@@ -512,12 +511,12 @@ const SmallCaps = () => {
       : ""}
       { annotation === 4 ?
         <AnnotationLabel
-        x={width/5}
-        y={height/1.2}
+        x={width/4.5}
+        y={height}
         dy={10}
         dx={162}
         color={"red"}
-        note={{"title":"SNDL Near Peak",
+        note={{"title":"SNDL Peak",
           "label":"",
           "lineType":"horizontal",
           "align":"middle"}}
@@ -526,8 +525,8 @@ const SmallCaps = () => {
       : ""}
       { annotation === 5 ?
         <AnnotationBracket
-        x={width/2.5}
-        y={height/1.2}
+        x={width/2}
+        y={height}
         dy={10}
         dx={162}
         color={"red"}
@@ -538,11 +537,11 @@ const SmallCaps = () => {
       { annotation === 6 ?
         <AnnotationLabel
         x={width/1.2}
-        y={height/1.2}
+        y={height}
         dy={80}
         dx={240}
         color={"red"}
-        note={{"title":"SNDL Peak",
+        note={{"title":"SNDL slight recovery",
           "label":"",
           "lineType":"horizontal",
           "align":"middle"}}

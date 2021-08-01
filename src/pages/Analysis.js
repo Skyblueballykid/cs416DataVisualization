@@ -4,6 +4,7 @@ import { useRef, useEffect, Fragment } from 'react';
 import { AMCClose } from '../data/close_prices.js';
 import { Typography, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
+import { AnnotationLabel } from 'react-annotation';
 
 const redditData = require('./subreddit.json')
 
@@ -77,21 +78,21 @@ const Analysis = () => {
        .attr('fill','black')
        .text('Users')
 
-    svg.append('text')
-       .attr("id", "annotate0")
-       .attr('x',(width/2))
-       .attr('y', (height + 140))
-       .attr('text-anchor', 'middle')
-       .attr('font-size', '24px')
-       .attr('fill','black')
-       .text('Date')
+    // svg.append('text')
+    //    .attr("id", "annotate0")
+    //    .attr('x',(width/2))
+    //    .attr('y', (height + 140))
+    //    .attr('text-anchor', 'middle')
+    //    .attr('font-size', '24px')
+    //    .attr('fill','black')
+    //    .text('Date')
 
-    svg.append("g")
-        .attr('id', 'xAxisDate')
-        .attr("transform", "translate(0," + (height + 90)+ ")")
-        .call(d3.axisBottom(xAxisDate).ticks(10).tickFormat(monthFormat))
-        .style("font-size","18px")
-        .style("color", "black")
+    // svg.append("g")
+    //     .attr('id', 'xAxisDate')
+    //     .attr("transform", "translate(0," + (height + 90)+ ")")
+    //     .call(d3.axisBottom(xAxisDate).ticks(10).tickFormat(monthFormat))
+    //     .style("font-size","18px")
+    //     .style("color", "black")
 
     const yAxis = d3.scaleLinear()
         .domain([0, 75000])
@@ -144,10 +145,24 @@ const Analysis = () => {
         </Button>
       </Link>
         <h1>Subreddit User Analysis</h1>
+        <Typography variant="h5" component="h5" color="secondary">This visualization illustrates the ratio of r/Wallstreetbets users to the number of daily posts by those users over the 6-month period from January 3, 2021 to July 12, 2021. A color transition occurs when this ratio surpasses the arbitrary cutoff of 5, which coincides well with the trading volume and price appreciation seen in the stocks highlighted. </Typography>
         <div id='d3div'>
         <svg ref={ScatterPlotRef}>
+        <AnnotationLabel
+        x={1200}
+        y={250}
+        dy={80}
+        dx={240}
+        color={"#000fff"}
+        note={{"title":"Peak activity",
+          "label":"68,250 posts by 4,949,083 users on January 27, 2021",
+          "lineType":"horizontal",
+          "align":"middle"}}
+        connector={{"type":"line","end":null}}
+      />
         </svg>
         </div>
+
         </Fragment>
     )
 }
