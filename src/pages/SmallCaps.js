@@ -197,7 +197,7 @@ const SmallCaps = () => {
 
           svg.append('text')
           .attr("id", "annotate2")
-          .attr('x',(width/4.5))
+          .attr('x',(width/4))
           .attr('y', height/1.2)
           .attr('text-anchor', 'middle')
           .attr('font-size', '20px')
@@ -511,7 +511,7 @@ const SmallCaps = () => {
       : ""}
       { annotation === 4 ?
         <AnnotationLabel
-        x={width/4.5}
+        x={width/4}
         y={height/1.1}
         dy={10}
         dx={162}
@@ -537,7 +537,7 @@ const SmallCaps = () => {
       { annotation === 6 ?
         <AnnotationLabel
         x={width/1.2}
-        y={height/1.1}
+        y={height/1.2}
         dy={80}
         dx={240}
         color={"red"}
