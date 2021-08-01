@@ -512,7 +512,7 @@ const SmallCaps = () => {
       { annotation === 4 ?
         <AnnotationLabel
         x={width/4.5}
-        y={height}
+        y={height/1.1}
         dy={10}
         dx={162}
         color={"red"}
@@ -526,7 +526,7 @@ const SmallCaps = () => {
       { annotation === 5 ?
         <AnnotationBracket
         x={width/2}
-        y={height}
+        y={height/1.1}
         dy={10}
         dx={162}
         color={"red"}
@@ -537,7 +537,7 @@ const SmallCaps = () => {
       { annotation === 6 ?
         <AnnotationLabel
         x={width/1.2}
-        y={height}
+        y={height/1.1}
         dy={80}
         dx={240}
         color={"red"}
