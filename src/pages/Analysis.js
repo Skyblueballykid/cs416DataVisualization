@@ -149,7 +149,7 @@ const Analysis = () => {
         <div id='d3div'>
         <svg ref={ScatterPlotRef}>
         <AnnotationLabel
-        x={900}
+        x={800}
         y={250}
         dy={80}
         dx={240}
