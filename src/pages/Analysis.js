@@ -2,9 +2,10 @@ import * as d3 from 'd3';
 import { transition } from 'd3-transition';
 import { useRef, useEffect, Fragment } from 'react';
 import { AMCClose } from '../data/close_prices.js';
-import { Typography, Button } from '@material-ui/core';
+import { Typography, Button, Grid } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { AnnotationLabel } from 'react-annotation';
+import './Analysis.css';
 
 const redditData = require('./subreddit.json')
 
@@ -13,6 +14,8 @@ const Analysis = () => {
     const ScatterPlotRef = useRef();
 
     const monthFormat = d3.timeFormat("%m/%d/%Y");
+
+    const [ data, setData ] = [ redditData ];
 
     useEffect(() => {
 
@@ -78,21 +81,6 @@ const Analysis = () => {
        .attr('fill','black')
        .text('Users')
 
-    // svg.append('text')
-    //    .attr("id", "annotate0")
-    //    .attr('x',(width/2))
-    //    .attr('y', (height + 140))
-    //    .attr('text-anchor', 'middle')
-    //    .attr('font-size', '24px')
-    //    .attr('fill','black')
-    //    .text('Date')
-
-    // svg.append("g")
-    //     .attr('id', 'xAxisDate')
-    //     .attr("transform", "translate(0," + (height + 90)+ ")")
-    //     .call(d3.axisBottom(xAxisDate).ticks(10).tickFormat(monthFormat))
-    //     .style("font-size","18px")
-    //     .style("color", "black")
 
     const yAxis = d3.scaleLinear()
         .domain([0, 75000])
@@ -104,8 +92,32 @@ const Analysis = () => {
     .style("font-size","18px")
     .style("color", "black")
 
+      // Tooltips
+      const Tooltip = d3.select("#d3div")
+      .append("div")
+      .style("opacity", 0)
+      .attr("class", "tooltip")
+      .style("background-color", "white")
+      .style("border", "solid")
+      .style("border-width", "1px")
+      .style("border-radius", "6px")
+      .style("padding", "4px")
 
-        // Add dots
+      // Tooltip handlers
+      const mouseover = function(event,d) {
+        Tooltip.style("opacity", 1)
+      }
+      const mousemove = function(event, d) {
+        Tooltip
+          .html("Users: " + d.Users + " <br/> Posts: " + d.Posts)
+          .style("left", (event.x)/1.1 + "px")
+          .style("top", (event.y)/1.1 + "px")
+      }
+      const mouseleave = function(d) {
+        Tooltip.style("opacity", 0)
+      }
+
+    // Add circles
     svg.append("g")
        .attr("id", "dot")
        .selectAll("dot")
@@ -117,7 +129,9 @@ const Analysis = () => {
         .attr("r", function(d) {return (d.Posts/d.Users)*10000})
         .style("fill", "#69b3a2")
         .style("opacity", 0.8)
-   
+        .on("mouseover", mouseover)
+        .on("mousemove", mousemove)
+        .on("mouseleave", mouseleave)
 
     d3.transition()
       .selectAll("circle")
@@ -162,7 +176,7 @@ const Analysis = () => {
       />
         </svg>
         </div>
-
+      <h3><i>Hover over a circle to show details on demand with tooltips.</i></h3>
         </Fragment>
     )
 }
